@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace HackerNews
 {
-    public class NewsViewModel_GoodAsyncAwaitPractices : BaseViewModel
+    public class NewsViewModel : BaseViewModel
     {
         #region Fields
         bool _isListRefreshing;
@@ -15,15 +15,8 @@ namespace HackerNews
         List<StoryModel> _topStoryList;
         #endregion
 
-        #region Constructors
-        public NewsViewModel_GoodAsyncAwaitPractices()
-        {
-            RefreshCommand?.Execute(null);
-        }
-        #endregion
-
         #region Properties
-        public ICommand RefreshCommand => _refreshCommand ?? 
+        public ICommand RefreshCommand => _refreshCommand ??
             (_refreshCommand = new Command(async () => await ExecuteRefreshCommand()));
 
         public List<StoryModel> TopStoryList
@@ -46,7 +39,18 @@ namespace HackerNews
 
             try
             {
-                TopStoryList = await GetTopStories(20).ConfigureAwait(false);
+                var topStoryList = await GetTopStories(20).ConfigureAwait(false);
+
+                var sentimentScoreTaskList = new List<Task>();
+                foreach(var story in topStoryList)
+                {
+                    sentimentScoreTaskList.Add(Task.Run(async () => 
+                                                story.TitleSentimentScore = await TextAnalysisService.GetSentiment(story.Title).ConfigureAwait(false)));
+                }
+
+                await Task.WhenAll(sentimentScoreTaskList).ConfigureAwait(false);
+
+                TopStoryList = topStoryList;
             }
             finally
             {
@@ -56,12 +60,12 @@ namespace HackerNews
 
         async Task<List<StoryModel>> GetTopStories(int numberOfStories)
         {
-            var topStoryIds = await GetTopStoryIDs().ConfigureAwait(false);
+            var topStoryIds = await HackerNewsAPIService.GetTopStoryIDs().ConfigureAwait(false);
 
             var getTop20StoriesTaskList = new List<Task<StoryModel>>();
             for (int i = 0; i < numberOfStories; i++)
             {
-                getTop20StoriesTaskList.Add(GetStory(topStoryIds[i]));
+                getTop20StoriesTaskList.Add(HackerNewsAPIService.GetStory(topStoryIds[i]));
             }
 
             await Task.WhenAll(getTop20StoriesTaskList).ConfigureAwait(false);
@@ -74,12 +78,6 @@ namespace HackerNews
 
             return topStoryList.OrderByDescending(x => x.Score).ToList();
         }
-
-        Task<List<string>> GetTopStoryIDs() =>
-            GetDataObjectFromAPI<List<string>>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
-
-        Task<StoryModel> GetStory(string storyId) =>
-            GetDataObjectFromAPI<StoryModel>($"https://hacker-news.firebaseio.com/v0/item/{storyId}.json?print=pretty");
         #endregion
     }
 }

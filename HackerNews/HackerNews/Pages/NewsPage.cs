@@ -2,7 +2,7 @@
 
 namespace HackerNews
 {
-    public class NewsPage : BaseContentPage<NewsViewModel_GoodAsyncAwaitPractices>
+    public class NewsPage : BaseContentPage<NewsViewModel>
     {
         #region Constant Fields
         readonly ListView _storiesListView;
@@ -22,6 +22,13 @@ namespace HackerNews
             _storiesListView.SetBinding(ListView.RefreshCommandProperty, nameof(ViewModel.RefreshCommand));
 
             Content = _storiesListView;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            _storiesListView.BeginRefresh();
         }
 
         protected override void SubscribeEventHandlers()

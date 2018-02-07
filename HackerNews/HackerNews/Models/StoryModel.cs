@@ -9,6 +9,8 @@ namespace HackerNews
     {
         public DateTimeOffset CreatedAt_DateTimeOffset => UnixTimeStampToDateTimeOffset(CreatedAt_UnixTime);
 
+        public float? TitleSentimentScore { get; set; }
+
         [JsonProperty("by")]
         public string Author { get; set; }
 

@@ -7,6 +7,7 @@
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
 		<PackageReference Include="Xamarin.Forms" Version="2.5.0.122203" />
+		<PackageReference Include="Microsoft.ProjectOxford.Text" Version="1.1.7" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\Base\" />
@@ -16,5 +17,6 @@
 	  <Folder Include="Views\News\" />
 	  <Folder Include="Services\" />
 	  <Folder Include="Constants\" />
+	  <Folder Include="Services\Base\" />
 	</ItemGroup>
 </Project>

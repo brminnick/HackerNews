@@ -133,6 +133,9 @@
     <Reference Include="Xamarin.Android.Support.CustomTabs">
       <HintPath>..\packages\Xamarin.Android.Support.CustomTabs.26.1.0.1\lib\MonoAndroid80\Xamarin.Android.Support.CustomTabs.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ProjectOxford.Text">
+      <HintPath>..\packages\Microsoft.ProjectOxford.Text.1.1.7\lib\netstandard2.0\Microsoft.ProjectOxford.Text.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
