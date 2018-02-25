@@ -19,22 +19,7 @@ namespace HackerNews
             if (BindingContext is StoryModel story)
             {
                 Text = story?.Title;
-                Detail = $"{GetEmoji(story.TitleSentimentScore)}{story.Score} Points by {story.Author} {GetAgeOfStory(story.CreatedAt_DateTimeOffset)} ago";
-            }
-        }
-
-        string GetEmoji(float? sentimentScore)
-        {
-            switch (sentimentScore)
-            {
-                case float number when (number < 0.4):
-                    return EmojiConstants.SadFaceEmoji;
-                case float number when (number >= 0.4 && number <= 0.6):
-                    return EmojiConstants.NeutralFaceEmoji;
-                case float number when (number > 0.6):
-                    return EmojiConstants.HappyFaceEmoji;
-                default:
-                    return string.Empty;
+                Detail = $"{story?.TitleSentimentEmoji}{story.Score} Points by {story.Author} {GetAgeOfStory(story.CreatedAt_DateTimeOffset)} ago";
             }
         }
 
