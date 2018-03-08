@@ -1,6 +1,7 @@
-﻿using UIKit;
+﻿using System.Diagnostics;
+
+using UIKit;
 using Foundation;
-using System.Diagnostics;
 
 namespace HackerNews.iOS
 {

@@ -1,5 +1,6 @@
-﻿using Xamarin.UITest;
-using System;
+﻿using System;
+
+using Xamarin.UITest;
 
 namespace HackerNews.UITests
 {
@@ -15,7 +16,6 @@ namespace HackerNews.UITests
                     return ConfigureApp.iOS.StartApp();
                 default:
                     throw new NotSupportedException();
-
             }
         }
     }
