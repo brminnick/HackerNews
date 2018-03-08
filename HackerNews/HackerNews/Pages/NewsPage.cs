@@ -49,7 +49,7 @@ namespace HackerNews
             Device.BeginInvokeOnMainThread(async () =>
             {
                 listView.SelectedItem = null;
-                await DependencyService.Get<IBrowserServices>()?.OpenBrowser(storyTapped.Url);
+                await DependencyService.Get<IBrowserServices>()?.OpenBrowser(storyTapped?.Url);
             });
         }
     }
