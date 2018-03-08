@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerNews.iOS", "HackerNew
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerNews.Droid", "HackNews.Droid\HackerNews.Droid.csproj", "{E419B244-E072-4EAB-B1C7-07886925C217}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerNews.UITests", "HackerNews.UITests\HackerNews.UITests.csproj", "{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HackerNews.Shared", "HackerNews.Shared\HackerNews.Shared.shproj", "{0C4DD21E-0DD2-40D8-9BCA-86CF68621796}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -53,5 +57,17 @@ Global
 		{E419B244-E072-4EAB-B1C7-07886925C217}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E419B244-E072-4EAB-B1C7-07886925C217}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E419B244-E072-4EAB-B1C7-07886925C217}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}.Release|iPhone.Build.0 = Release|Any CPU
+		{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,6 @@
-﻿using UIKit;
+﻿using System.Diagnostics;
+
+using UIKit;
 using Foundation;
 
 namespace HackerNews.iOS
@@ -8,11 +10,16 @@ namespace HackerNews.iOS
     {
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
+			ExposeAutomationAPIs();
+
             global::Xamarin.Forms.Forms.Init();
 
             LoadApplication(new App());
 
             return base.FinishedLaunching(uiApplication, launchOptions);
         }
+
+        [Conditional("DEBUG")]
+        void ExposeAutomationAPIs() => Xamarin.Calabash.Start();
     }
 }
