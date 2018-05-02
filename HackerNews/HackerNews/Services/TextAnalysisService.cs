@@ -3,38 +3,37 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Microsoft.ProjectOxford.Text.Core;
-using Microsoft.ProjectOxford.Text.Sentiment;
+using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
+using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
 
 namespace HackerNews
 {
-    abstract class TextAnalysisService : BaseHttpClientService
-    {
-        #region Constant Fields
-        readonly static Lazy<SentimentClient> sentimentClientHolder =
-            new Lazy<SentimentClient>(() => new SentimentClient(TextAnalysisConstants.SentimentKey));
-        #endregion
+	static class TextAnalysisService
+	{
+		readonly static Lazy<TextAnalyticsAPI> _textAnalyticsApiClientHolder = new Lazy<TextAnalyticsAPI>(() =>
+			new TextAnalyticsAPI
+			{
+				AzureRegion = AzureRegions.Westus,
+				SubscriptionKey = TextAnalysisConstants.SentimentKey
+			});
 
-        #region Properties
-        static SentimentClient SentimentClient => sentimentClientHolder.Value;
-        #endregion
+		static TextAnalyticsAPI TextAnalyticsApiClient => _textAnalyticsApiClientHolder.Value;
 
-        #region Methods
-        public static async Task<float?> GetSentiment(string text)
-        {
-            var sentimentDocument = new SentimentDocument { Id = "1", Text = text };
-            var sentimentRequest = new SentimentRequest { Documents = new List<IDocument> { { sentimentDocument } } };
+		public static async Task<double?> GetSentiment(string text)
+		{
+			var sentimentDocument = new MultiLanguageBatchInput(new List<MultiLanguageInput> { { new MultiLanguageInput(id: "1", text: text) } });
 
-            UpdateActivityIndicatorStatus(true);
+			var sentimentResults = await TextAnalyticsApiClient.SentimentAsync(sentimentDocument).ConfigureAwait(false);
 
-            var sentimentResults = await SentimentClient.GetSentimentAsync(sentimentRequest);
+			if (sentimentResults?.Errors?.Any() ?? false)
+			{
+				var exceptionList = sentimentResults.Errors.Select(x => new Exception($"Id: {x.Id}, Message: {x.Message}"));
+				throw new AggregateException(exceptionList);
+			}
 
-            UpdateActivityIndicatorStatus(false);
+			var documentResult = sentimentResults?.Documents?.FirstOrDefault();
 
-            var documentResult = sentimentResults.Documents.FirstOrDefault();
-
-            return documentResult?.Score;
-        }
-        #endregion
-    }
+			return documentResult?.Score;
+		}
+	}
 }

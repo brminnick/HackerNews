@@ -9,8 +9,8 @@ namespace HackerNews
     {
         public DateTimeOffset CreatedAt_DateTimeOffset => UnixTimeStampToDateTimeOffset(CreatedAt_UnixTime);
         public string TitleSentimentEmoji => GetEmoji(TitleSentimentScore);
-
-        public float? TitleSentimentScore { get; set; } = -1;
+        
+        public double? TitleSentimentScore { get; set; } = -1;
 
         [JsonProperty("by")]
         public string Author { get; set; }
@@ -45,15 +45,15 @@ namespace HackerNews
             return dateTimeOffset.AddSeconds(unixTimeStamp);
         }
 
-        string GetEmoji(float? sentimentScore)
+        string GetEmoji(double? sentimentScore)
         {
             switch (sentimentScore)
             {
-                case float number when (number >= 0 && number < 0.4):
+                case double number when (number >= 0 && number < 0.4):
                     return EmojiConstants.SadFaceEmoji;
-                case float number when (number >= 0.4 && number <= 0.6):
+                case double number when (number >= 0.4 && number <= 0.6):
                     return EmojiConstants.NeutralFaceEmoji;
-                case float number when (number > 0.6):
+                case double number when (number > 0.6):
                     return EmojiConstants.HappyFaceEmoji;
                 case null:
                     return EmojiConstants.BlankFaceEmoji;
