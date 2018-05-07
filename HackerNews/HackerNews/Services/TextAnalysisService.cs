@@ -35,5 +35,35 @@ namespace HackerNews
 
 			return documentResult?.Score;
 		}
+
+		public static async Task<Dictionary<string, double?>> GetSentiment(List<string> textList)
+		{         
+			var textIdDictionary = new Dictionary<string, string>();
+			var multiLanguageBatchInput = new MultiLanguageBatchInput(new List<MultiLanguageInput>());
+
+			foreach (var text in textList)
+			{
+				var textGuidString = Guid.NewGuid().ToString();
+
+				textIdDictionary.Add(textGuidString, text);
+
+				multiLanguageBatchInput.Documents.Add(new MultiLanguageInput(id: textGuidString, text: text));
+			}
+
+			var sentimentResults = await TextAnalyticsApiClient.SentimentAsync(multiLanguageBatchInput).ConfigureAwait(false);
+
+			if (sentimentResults?.Errors?.Any() ?? false)
+			{
+				var exceptionList = sentimentResults.Errors.Select(x => new Exception($"Id: {x.Id}, Message: {x.Message}"));
+				throw new AggregateException(exceptionList);
+			}
+
+			var resultsDictionary = new Dictionary<string, double?>();
+
+			foreach (var result in sentimentResults?.Documents)
+				resultsDictionary.Add(textIdDictionary[result.Id], result?.Score);
+
+			return resultsDictionary;
+		}
 	}
 }

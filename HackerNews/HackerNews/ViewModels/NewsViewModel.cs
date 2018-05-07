@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Diagnostics;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -13,6 +15,10 @@ namespace HackerNews
 		bool _isListRefreshing;
 		ICommand _refreshCommand;
 		List<StoryModel> _topStoryList;
+		#endregion
+
+		#region Events
+		public event EventHandler<string> PullToRefreshFailed;
 		#endregion
 
 		#region Properties
@@ -41,16 +47,20 @@ namespace HackerNews
 			{
 				var topStoryList = await GetTopStories(20).ConfigureAwait(false);
 
-				var sentimentScoreTaskList = new List<Task>();
-				foreach (var story in topStoryList)
+				var topStoryTitleList = topStoryList.Select(x => x.Title).ToList();
+				var sentimentResults = await TextAnalysisService.GetSentiment(topStoryTitleList).ConfigureAwait(false);
+
+				foreach (var sentimentResult in sentimentResults)
 				{
-					sentimentScoreTaskList.Add(Task.Run(async () =>
-												story.TitleSentimentScore = await TextAnalysisService.GetSentiment(story.Title).ConfigureAwait(false)));
+					var story = topStoryList.Where(x => x.Title.Equals(sentimentResult.Key))?.FirstOrDefault();
+					story.TitleSentimentScore = sentimentResult.Value;
 				}
 
-				await Task.WhenAll(sentimentScoreTaskList).ConfigureAwait(false);
-
 				TopStoryList = topStoryList;
+			}
+			catch (TaskCanceledException e)
+			{
+				OnPullToRefreshFailed("Http Timeout");
 			}
 			finally
 			{
@@ -78,6 +88,8 @@ namespace HackerNews
 
 			return topStoryList.OrderByDescending(x => x.Score).ToList();
 		}
+
+		void OnPullToRefreshFailed(string message) => PullToRefreshFailed?.Invoke(this, message);
 		#endregion
 	}
 }

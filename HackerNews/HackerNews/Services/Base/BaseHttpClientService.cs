@@ -18,11 +18,15 @@ namespace HackerNews
 	{
 		#region Constant Fields
 		static readonly Lazy<JsonSerializer> _serializerHolder = new Lazy<JsonSerializer>();
-		static readonly Lazy<HttpClient> _clientHolder = new Lazy<HttpClient>(() => CreateHttpClient(TimeSpan.FromSeconds(5)));
+		static readonly Lazy<HttpClient> _clientHolder = new Lazy<HttpClient>(() => CreateHttpClient(TimeSpan.FromSeconds(30)));
 		#endregion
 
 		#region Fields
 		static int _networkIndicatorCount = 0;
+		#endregion
+
+		#region Events
+		public static event EventHandler<string> HttpRequestFailed;
 		#endregion
 
 		#region Properties
@@ -47,6 +51,7 @@ namespace HackerNews
 			}
 			catch (Exception e)
 			{
+				OnHttpRequestFailed(e.Message);
 				Report(e);
 				throw;
 			}
@@ -121,6 +126,7 @@ namespace HackerNews
 				}
 				catch (Exception e)
 				{
+					OnHttpRequestFailed(e.Message);
 					Report(e);
 					throw;
 				}
@@ -190,6 +196,8 @@ namespace HackerNews
 				throw;
 			}
 		}
+
+		static void OnHttpRequestFailed(string message) => HttpRequestFailed?.Invoke(null, message);
 
 		static void Report(Exception e, [CallerMemberName]string callerMemberName = "") => Debug.WriteLine(e.Message);
 		#endregion
