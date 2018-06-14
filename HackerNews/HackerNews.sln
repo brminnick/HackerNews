@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerNews", "HackerNews\Ha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerNews.iOS", "HackerNews.iOS\HackerNews.iOS.csproj", "{6F319699-D810-4441-AF9F-4880C6AA2B03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerNews.Droid", "HackNews.Droid\HackerNews.Droid.csproj", "{E419B244-E072-4EAB-B1C7-07886925C217}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerNews.Droid", "HackerNews.Droid\HackerNews.Droid.csproj", "{E419B244-E072-4EAB-B1C7-07886925C217}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerNews.UITests", "HackerNews.UITests\HackerNews.UITests.csproj", "{59A2FBF6-AEAC-43D8-90A8-8020CAD1252F}"
 EndProject

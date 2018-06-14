@@ -6,10 +6,6 @@ namespace HackerNews
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
-        #region Fields
-        static int _networkIndicatorCount = 0;
-        #endregion
-
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion

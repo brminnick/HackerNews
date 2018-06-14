@@ -2,6 +2,8 @@
 using Android.App;
 using Android.Content.PM;
 
+using Plugin.CurrentActivity;
+
 namespace HackerNews.Droid
 {
     [Activity(Label = "HackerNews.Droid", Icon = "@drawable/icon", Theme = "@style/MyTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -13,6 +15,8 @@ namespace HackerNews.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
