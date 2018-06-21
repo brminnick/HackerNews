@@ -14,9 +14,7 @@ namespace HackerNews
         #region Constant Fields
         readonly static Lazy<TextAnalyticsAPI> _textAnalyticsApiClientHolder = new Lazy<TextAnalyticsAPI>(() =>
             new TextAnalyticsAPI(new ApiKeyServiceClientCredentials(TextAnalysisConstants.SentimentKey)));
-            //{
-            //    AzureRegion = AzureRegions.Westus
-            //}
+           
         #endregion
 
         #region Properties
