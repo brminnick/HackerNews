@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
 using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
+using Microsoft.Rest;
 
 namespace HackerNews
 {
@@ -12,11 +13,10 @@ namespace HackerNews
     {
         #region Constant Fields
         readonly static Lazy<TextAnalyticsAPI> _textAnalyticsApiClientHolder = new Lazy<TextAnalyticsAPI>(() =>
-            new TextAnalyticsAPI
-            {
-                AzureRegion = AzureRegions.Westus,
-                SubscriptionKey = TextAnalysisConstants.SentimentKey
-            });
+            new TextAnalyticsAPI(new ApiKeyServiceClientCredentials(TextAnalysisConstants.SentimentKey)));
+            //{
+            //    AzureRegion = AzureRegions.Westus
+            //}
         #endregion
 
         #region Properties
@@ -69,6 +69,25 @@ namespace HackerNews
                 resultsDictionary.Add(textIdDictionary[result.Id], result?.Score);
 
             return resultsDictionary;
+        }
+        #endregion
+
+        #region Classes
+        class ApiKeyServiceClientCredentials : ServiceClientCredentials
+        {
+            readonly string _subscriptionKey;
+
+            public ApiKeyServiceClientCredentials(string subscriptionKey)=> _subscriptionKey = subscriptionKey;
+
+            public override Task ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+            {
+                if (request == null)
+                    throw new ArgumentNullException("request");
+
+                request.Headers.Add("Ocp-Apim-Subscription-Key", _subscriptionKey);
+
+                return Task.FromResult<object>(null);
+            }
         }
         #endregion
     }
