@@ -143,9 +143,6 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics">
-      <HintPath>..\packages\Microsoft.Azure.CognitiveServices.Language.TextAnalytics.1.0.1-preview\lib\netstandard1.4\Microsoft.Azure.CognitiveServices.Language.TextAnalytics.dll</HintPath>
-    </Reference>
     <Reference Include="System.Threading.Tasks.Extensions">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.0\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
