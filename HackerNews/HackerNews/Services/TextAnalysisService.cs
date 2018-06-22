@@ -24,8 +24,8 @@ namespace HackerNews
 
             foreach (var resultTask in resultsTaskList)
             {
-                var result = await resultTask.ConfigureAwait(false);
-                sentimentDictionary.Add(result.text, result.sentiment);
+                var (text, sentiment) = await resultTask.ConfigureAwait(false);
+                sentimentDictionary.Add(text, sentiment);
             }
 
             return sentimentDictionary;
