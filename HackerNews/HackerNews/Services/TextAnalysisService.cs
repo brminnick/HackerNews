@@ -7,6 +7,8 @@ namespace HackerNews
 {
     abstract class TextAnalysisService : BaseHttpClientService
     {
+        const string _naturalLanguageAPIKey = "AIzaSyCiOopwcZR9GIGmu_toBzBNvDhOuUAW2Ns";
+
         #region Methods
         public static async Task<double?> GetSentiment(string text)
         {
@@ -36,7 +38,7 @@ namespace HackerNews
         {
             var request = new NaturalLanguageRequestModel(new Document(text));
 
-            var response = await PostObjectToAPI<NaturalLanguageResponseModel, NaturalLanguageRequestModel>("https://language.googleapis.com/v1/documents:analyzeSentiment?key=AIzaSyCiOopwcZR9GIGmu_toBzBNvDhOuUAW2Ns", request).ConfigureAwait(false);
+            var response = await PostObjectToAPI<NaturalLanguageResponseModel, NaturalLanguageRequestModel>($"https://language.googleapis.com/v1/documents:analyzeSentiment?key={_naturalLanguageAPIKey}", request).ConfigureAwait(false);
 
             return (text, response?.DocumentSentiment?.Score);
         }
