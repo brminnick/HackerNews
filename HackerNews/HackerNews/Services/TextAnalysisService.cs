@@ -16,7 +16,8 @@ namespace HackerNews
 
         public static async Task<Dictionary<string, double?>> GetSentiment(List<string> textList)
         {
-            var resultsTaskList = new List<Task<(string text, double? sentiment)>>(textList.Select(GetSentimentFromAPI));
+            var resultsTaskList = new List<Task<(string text, double? sentiment)>>();
+            resultsTaskList.AddRange(textList.Select(x => GetSentimentFromAPI(x)));
 
             await Task.WhenAll(resultsTaskList);
 
