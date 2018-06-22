@@ -35,7 +35,7 @@ namespace HackerNews
         {
             var request = new NaturalLanguageRequestModel(new Document(text));
 
-            var response = await PostObjectToAPI<NaturalLanguageResponseModel, NaturalLanguageRequestModel>($"https://language.googleapis.com/v1/documents:analyzeSentiment?key={NaturalLanguageConstants.ApiKey}", request).ConfigureAwait(false);
+            var response = await PostObjectToAPI<NaturalLanguageResponseModel, NaturalLanguageRequestModel>($"{NaturalLanguageConstants.ApiUrl}?key={NaturalLanguageConstants.ApiKey}", request).ConfigureAwait(false);
 
             return (text, response?.DocumentSentiment?.Score);
         }
