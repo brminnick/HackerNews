@@ -79,8 +79,8 @@ namespace HackerNews
 
             public override Task ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
             {
-                if (request == null)
-                    throw new ArgumentNullException("request");
+                if (request is null)
+                    throw new ArgumentNullException(nameof(request));
 
                 request.Headers.Add("Ocp-Apim-Subscription-Key", _subscriptionKey);
 
