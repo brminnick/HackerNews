@@ -12,13 +12,13 @@ namespace HackerNews
     static class TextAnalysisService
     {
         #region Constant Fields
-        readonly static Lazy<TextAnalyticsAPI> _textAnalyticsApiClientHolder = new Lazy<TextAnalyticsAPI>(() =>
-            new TextAnalyticsAPI(new ApiKeyServiceClientCredentials(TextAnalysisConstants.SentimentKey)));
-           
+        readonly static Lazy<TextAnalyticsClient> _textAnalyticsApiClientHolder = new Lazy<TextAnalyticsClient>(() =>
+            new TextAnalyticsClient(new ApiKeyServiceClientCredentials(TextAnalysisConstants.SentimentKey)) { BaseUri = new Uri("https://westus.api.cognitive.microsoft.com/text/analytics/v2.0") });
+
         #endregion
 
         #region Properties
-        static TextAnalyticsAPI TextAnalyticsApiClient => _textAnalyticsApiClientHolder.Value;
+        static TextAnalyticsClient TextAnalyticsApiClient => _textAnalyticsApiClientHolder.Value;
         #endregion
 
         #region Methods
@@ -75,7 +75,7 @@ namespace HackerNews
         {
             readonly string _subscriptionKey;
 
-            public ApiKeyServiceClientCredentials(string subscriptionKey)=> _subscriptionKey = subscriptionKey;
+            public ApiKeyServiceClientCredentials(string subscriptionKey) => _subscriptionKey = subscriptionKey;
 
             public override Task ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
             {

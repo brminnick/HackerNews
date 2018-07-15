@@ -6,9 +6,9 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-		<PackageReference Include="Xamarin.Forms" Version="3.1.0.583944" />
-		<PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="1.0.1-preview" />
 		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
+		<PackageReference Include="Xamarin.Forms" Version="3.1.0.637273" />
+		<PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="2.0.0-preview" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\Base\" />
