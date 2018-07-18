@@ -69,24 +69,24 @@ namespace HackerNews
             return resultsDictionary;
         }
         #endregion
-
-        #region Classes
-        class ApiKeyServiceClientCredentials : ServiceClientCredentials
-        {
-            readonly string _subscriptionKey;
-
-            public ApiKeyServiceClientCredentials(string subscriptionKey) => _subscriptionKey = subscriptionKey;
-
-            public override Task ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
-            {
-                if (request is null)
-                    throw new ArgumentNullException(nameof(request));
-
-                request.Headers.Add("Ocp-Apim-Subscription-Key", _subscriptionKey);
-
-                return Task.CompletedTask;
-            }
-        }
-        #endregion
     }
+
+    #region Classes
+    class ApiKeyServiceClientCredentials : ServiceClientCredentials
+    {
+        readonly string _subscriptionKey;
+
+        public ApiKeyServiceClientCredentials(string subscriptionKey) => _subscriptionKey = subscriptionKey;
+
+        public override Task ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            request.Headers.Add("Ocp-Apim-Subscription-Key", _subscriptionKey);
+
+            return Task.CompletedTask;
+        }
+    }
+    #endregion
 }
