@@ -78,15 +78,10 @@ namespace HackerNews
 				getTop20StoriesTaskList.Add(HackerNewsAPIService.GetStory(topStoryIds[i]));
 			}
 
-			await Task.WhenAll(getTop20StoriesTaskList).ConfigureAwait(false);
+			var topStoriesArray = await Task.WhenAll(getTop20StoriesTaskList).ConfigureAwait(false);
 
-			var topStoryList = new List<StoryModel>();
-			foreach (var getStoryTask in getTop20StoriesTaskList)
-			{
-				topStoryList.Add(await getStoryTask.ConfigureAwait(false));
-			}
 
-			return topStoryList.OrderByDescending(x => x.Score).ToList();
+            return topStoriesArray.OrderByDescending(x => x.Score).ToList();
 		}
 
 		void OnPullToRefreshFailed(string message) => PullToRefreshFailed?.Invoke(this, message);
