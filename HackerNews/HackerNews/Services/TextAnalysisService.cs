@@ -13,7 +13,7 @@ namespace HackerNews
     {
         #region Constant Fields
         readonly static Lazy<TextAnalyticsClient> _textAnalyticsApiClientHolder = new Lazy<TextAnalyticsClient>(() =>
-            new TextAnalyticsClient(new ApiKeyServiceClientCredentials(TextAnalysisConstants.SentimentKey)) { BaseUri = new Uri("https://westus.api.cognitive.microsoft.com/text/analytics/v2.0") });
+            new TextAnalyticsClient(new ApiKeyServiceClientCredentials(TextAnalysisConstants.SentimentKey)) { Endpoint = TextAnalysisConstants.BaseUrl });
 
         #endregion
 
