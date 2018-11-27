@@ -5,7 +5,7 @@ using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Xamarin.Forms;
+using AsyncAwaitBestPractices.MVVM;
 
 namespace HackerNews
 {
@@ -19,11 +19,11 @@ namespace HackerNews
 
 		#region Events
 		public event EventHandler<string> PullToRefreshFailed;
-		#endregion
+        #endregion
 
-		#region Properties
-		public ICommand RefreshCommand => _refreshCommand ??
-			(_refreshCommand = new Command(async () => await ExecuteRefreshCommand().ConfigureAwait(false)));
+        #region Properties
+        public ICommand RefreshCommand => _refreshCommand ??
+            (_refreshCommand = new AsyncCommand(ExecuteRefreshCommand, continueOnCapturedContext: false));
 
 		public List<StoryModel> TopStoryList
 		{
