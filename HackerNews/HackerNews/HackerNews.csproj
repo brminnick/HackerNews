@@ -5,11 +5,13 @@
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
 		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
 		<PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
-		<PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="2.1.0-preview" />
-		<PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="0.9.0" />
+		<PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="2.8.0-preview" />
+		<PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="1.0.0" />
+		<PackageReference Include="Polly" Version="6.1.2" />
+		<PackageReference Include="Refit" Version="4.6.58" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\Base\" />

@@ -52,7 +52,7 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.CurrentActivity">
       <HintPath>..\packages\Plugin.CurrentActivity.2.1.0.4\lib\monoandroid44\Plugin.CurrentActivity.dll</HintPath>
@@ -122,22 +122,22 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime">
-      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.13\lib\netstandard1.4\Microsoft.Rest.ClientRuntime.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.17\lib\netstandard1.4\Microsoft.Rest.ClientRuntime.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime.Azure">
-      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.Azure.3.3.15\lib\netstandard1.4\Microsoft.Rest.ClientRuntime.Azure.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.Azure.3.3.18\lib\netstandard1.4\Microsoft.Rest.ClientRuntime.Azure.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics">
-      <HintPath>..\packages\Microsoft.Azure.CognitiveServices.Language.TextAnalytics.2.1.0-preview\lib\netstandard1.4\Microsoft.Azure.CognitiveServices.Language.TextAnalytics.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Azure.CognitiveServices.Language.TextAnalytics.2.8.0-preview\lib\netstandard1.4\Microsoft.Azure.CognitiveServices.Language.TextAnalytics.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.0\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="AsyncAwaitBestPractices">
-      <HintPath>..\packages\AsyncAwaitBestPractices.0.9.0\lib\netstandard\AsyncAwaitBestPractices.dll</HintPath>
+      <HintPath>..\packages\AsyncAwaitBestPractices.1.0.0\lib\netstandard\AsyncAwaitBestPractices.dll</HintPath>
     </Reference>
     <Reference Include="AsyncAwaitBestPractices.MVVM">
-      <HintPath>..\packages\AsyncAwaitBestPractices.MVVM.0.9.0\lib\netstandard\AsyncAwaitBestPractices.MVVM.dll</HintPath>
+      <HintPath>..\packages\AsyncAwaitBestPractices.MVVM.1.0.0\lib\netstandard\AsyncAwaitBestPractices.MVVM.dll</HintPath>
     </Reference>
     <Reference Include="FormsViewGroup">
       <HintPath>..\packages\Xamarin.Forms.3.4.0.1008975\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
@@ -153,6 +153,12 @@
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.3.4.0.1008975\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Refit">
+      <HintPath>..\packages\Refit.4.6.58\lib\netstandard2.0\Refit.dll</HintPath>
+    </Reference>
+    <Reference Include="Polly">
+      <HintPath>..\packages\Polly.6.1.2\lib\netstandard2.0\Polly.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -208,4 +214,5 @@
   <Import Project="..\packages\Xamarin.Android.Support.Design.27.0.2.1\build\MonoAndroid81\Xamarin.Android.Support.Design.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Design.27.0.2.1\build\MonoAndroid81\Xamarin.Android.Support.Design.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.v7.MediaRouter.27.0.2.1\build\MonoAndroid81\Xamarin.Android.Support.v7.MediaRouter.targets" Condition="Exists('..\packages\Xamarin.Android.Support.v7.MediaRouter.27.0.2.1\build\MonoAndroid81\Xamarin.Android.Support.v7.MediaRouter.targets')" />
   <Import Project="..\packages\Xamarin.Forms.3.4.0.1008975\build\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.3.4.0.1008975\build\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\Refit.4.6.58\build\netstandard1.4\refit.targets" Condition="Exists('..\packages\Refit.4.6.58\build\netstandard1.4\refit.targets')" />
 </Project>
