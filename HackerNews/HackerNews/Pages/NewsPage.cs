@@ -12,14 +12,17 @@ namespace HackerNews
 
 		public NewsPage() : base("Top Stories")
 		{
-			_storiesListView = new ListView(ListViewCachingStrategy.RecycleElement)
+            ViewModel.PullToRefreshFailed += HandlePullToRefreshFailed;
+
+            _storiesListView = new ListView(ListViewCachingStrategy.RecycleElement)
 			{
 				ItemTemplate = new DataTemplate(typeof(StoryTextCell)),
 				IsPullToRefreshEnabled = true,
 				BackgroundColor = Color.FromHex("F6F6EF"),
 				SeparatorVisibility = SeparatorVisibility.None
 			};
-			_storiesListView.SetBinding(ListView.ItemsSourceProperty, nameof(ViewModel.TopStoryList));
+            _storiesListView.ItemTapped += HandleItemTapped;
+            _storiesListView.SetBinding(ListView.ItemsSourceProperty, nameof(ViewModel.TopStoryList));
 			_storiesListView.SetBinding(ListView.IsRefreshingProperty, nameof(ViewModel.IsListRefreshing));
 			_storiesListView.SetBinding(ListView.RefreshCommandProperty, nameof(ViewModel.RefreshCommand));
 
@@ -31,18 +34,6 @@ namespace HackerNews
 			base.OnAppearing();
 
 			_storiesListView.BeginRefresh();
-		}
-
-		protected override void SubscribeEventHandlers()
-		{
-			_storiesListView.ItemTapped += HandleItemTapped;
-			ViewModel.PullToRefreshFailed += HandlePullToRefreshFailed;
-		}
-
-		protected override void UnsubscribeEventHandlers()
-		{
-			_storiesListView.ItemTapped -= HandleItemTapped;
-			ViewModel.PullToRefreshFailed -= HandlePullToRefreshFailed;
 		}
 
 		void HandleItemTapped(object sender, ItemTappedEventArgs e)
@@ -58,6 +49,6 @@ namespace HackerNews
 		}
 
 		void HandlePullToRefreshFailed(object sender, string message) =>
-			Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Update Failed", message, "OK"));
+			Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Refresh Failed", message, "OK"));
 	}
 }

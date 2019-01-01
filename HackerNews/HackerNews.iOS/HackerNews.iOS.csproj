@@ -107,10 +107,10 @@
       <HintPath>..\packages\Xamarin.TestCloud.Agent.0.21.7\lib\Xamarin.iOS\Calabash.dll</HintPath>
     </Reference>
     <Reference Include="AsyncAwaitBestPractices">
-      <HintPath>..\packages\AsyncAwaitBestPractices.1.0.0\lib\netstandard\AsyncAwaitBestPractices.dll</HintPath>
+      <HintPath>..\packages\AsyncAwaitBestPractices.2.1.0-pre1\lib\netstandard\AsyncAwaitBestPractices.dll</HintPath>
     </Reference>
     <Reference Include="AsyncAwaitBestPractices.MVVM">
-      <HintPath>..\packages\AsyncAwaitBestPractices.MVVM.1.0.0\lib\netstandard\AsyncAwaitBestPractices.MVVM.dll</HintPath>
+      <HintPath>..\packages\AsyncAwaitBestPractices.MVVM.2.1.0-pre1\lib\netstandard\AsyncAwaitBestPractices.MVVM.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Core">
       <HintPath>..\packages\Xamarin.Forms.3.4.0.1008975\lib\Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>

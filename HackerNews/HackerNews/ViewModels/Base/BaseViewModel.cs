@@ -1,13 +1,22 @@
 ﻿using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using AsyncAwaitBestPractices;
 
 namespace HackerNews
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
+        #region Constant Fields
+        readonly WeakEventManager _propertyChangedEventManager = new WeakEventManager();
+        #endregion
+
         #region Events
-        public event PropertyChangedEventHandler PropertyChanged;
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
+        {
+            add => _propertyChangedEventManager.AddEventHandler(value);
+            remove => _propertyChangedEventManager.RemoveEventHandler(value);
+        }
         #endregion
 
         #region Methods
@@ -24,7 +33,7 @@ namespace HackerNews
         }
 
         void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            _propertyChangedEventManager?.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(INotifyPropertyChanged.PropertyChanged));
         #endregion
     }
 }

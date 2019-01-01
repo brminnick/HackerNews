@@ -23,12 +23,10 @@ namespace HackerNews
         public static Task<StoryModel> GetStory(string storyId) => ExecutePollyHttpFunction(() => HackerNewsApiClient.GetStory(storyId));
         public static Task<List<string>> GetTopStoryIDs() => ExecutePollyHttpFunction(() => HackerNewsApiClient.GetTopStoryIDs());
 
-        static Task<T> ExecutePollyHttpFunction<T>(Func<Task<T>> action, int numRetries = 5)
+        static Task<T> ExecutePollyHttpFunction<T>(Func<Task<T>> action, int numRetries = 3)
         {
             return Policy
-                    .Handle<WebException>()
-                    .Or<HttpRequestException>()
-                    .Or<TimeoutException>()
+                    .Handle<Exception>()
                     .WaitAndRetryAsync
                     (
                         numRetries,
