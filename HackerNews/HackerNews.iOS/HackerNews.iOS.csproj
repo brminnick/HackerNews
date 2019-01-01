@@ -100,9 +100,6 @@
     <Reference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics">
       <HintPath>..\packages\Microsoft.Azure.CognitiveServices.Language.TextAnalytics.2.8.0-preview\lib\netstandard1.4\Microsoft.Azure.CognitiveServices.Language.TextAnalytics.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.0\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="Calabash">
       <HintPath>..\packages\Xamarin.TestCloud.Agent.0.21.7\lib\Xamarin.iOS\Calabash.dll</HintPath>
     </Reference>

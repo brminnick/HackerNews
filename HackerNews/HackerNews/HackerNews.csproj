@@ -6,7 +6,6 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.0-preview.18571.3" />
 		<PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
 		<PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="2.8.0-preview" />
 		<PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="2.1.0-pre1" />
