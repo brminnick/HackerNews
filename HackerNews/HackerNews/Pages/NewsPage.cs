@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Xamarin.Forms;
 
-using Xamarin.Forms;
+using HackerNews.Shared;
 
 namespace HackerNews
 {

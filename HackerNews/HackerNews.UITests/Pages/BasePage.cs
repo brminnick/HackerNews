@@ -2,24 +2,24 @@
 
 namespace HackerNews.UITests
 {
-    public abstract class BasePage
-    {
-        #region Constructors
-        protected BasePage(IApp app, string pageTitle)
-        {
-            App = app;
-            Title = pageTitle;
-        }
-        #endregion
+	public abstract class BasePage
+	{
+		#region Constructors
+		protected BasePage(IApp app, string pageTitle)
+		{
+			App = app;
+			PageTitle = pageTitle;
+		}
+		#endregion
 
-        #region Properties
-        public string Title { get; }
-        protected IApp App { get; }
-        #endregion
+		#region Properties
+		public string PageTitle { get; }
+		protected IApp App { get; }
+		#endregion
 
-        #region Methods
-        public virtual void WaitForPageToLoad() => App.WaitForElement(Title);
-        #endregion
-    }
+		#region Methods
+		public virtual void WaitForPageToLoad() => App.WaitForElement(x => x.Marked(PageTitle));
+		#endregion
+	}
 }
 

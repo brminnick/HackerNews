@@ -10,5 +10,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Constants\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\StoriesConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\PageTitleConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\StoryModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\EmojiConstants.cs" />
   </ItemGroup>
 </Project>

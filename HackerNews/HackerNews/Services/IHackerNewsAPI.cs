@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 using Refit;
 
+using HackerNews.Shared;
+
 namespace HackerNews
 {
     public interface IHackerNewsAPI

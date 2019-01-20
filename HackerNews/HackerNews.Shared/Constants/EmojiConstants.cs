@@ -1,4 +1,4 @@
-﻿namespace HackerNews
+﻿namespace HackerNews.Shared
 {
     public static class EmojiConstants
     {

@@ -10,7 +10,7 @@ namespace HackerNews.iOS
     {
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
-			ExposeAutomationAPIs();
+            Xamarin.Calabash.Start();
 
             global::Xamarin.Forms.Forms.Init();
 
@@ -19,7 +19,8 @@ namespace HackerNews.iOS
             return base.FinishedLaunching(uiApplication, launchOptions);
         }
 
-        [Conditional("DEBUG")]
-        void ExposeAutomationAPIs() => Xamarin.Calabash.Start();
+        [Preserve, Export("getSerializedStoryList:")]
+        public NSString GetSerializedStoryList(NSString noValue) =>
+            new NSString(UITestBackdoorServices.GetSerializedStoryList());
     }
 }

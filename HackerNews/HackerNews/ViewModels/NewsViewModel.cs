@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 
+using HackerNews.Shared;
+
 namespace HackerNews
 {
     public class NewsViewModel : BaseViewModel
@@ -53,7 +55,7 @@ namespace HackerNews
 
             try
             {
-                var topStoryList = await GetTopStories().ConfigureAwait(false);
+                var topStoryList = await GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false);
 
                 var topStoryTitleList = topStoryList.Select(x => x.Title).ToList();
                 var sentimentResults = await TextAnalysisService.GetSentiment(topStoryTitleList).ConfigureAwait(false);
