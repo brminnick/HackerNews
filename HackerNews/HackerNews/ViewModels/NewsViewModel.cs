@@ -4,8 +4,8 @@ using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using AsyncAwaitBestPractices.MVVM;
 using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 
 namespace HackerNews
 {
@@ -53,14 +53,14 @@ namespace HackerNews
 
             try
             {
-                var topStoryList = await GetTopStories(20).ConfigureAwait(false);
+                var topStoryList = await GetTopStories().ConfigureAwait(false);
 
                 var topStoryTitleList = topStoryList.Select(x => x.Title).ToList();
                 var sentimentResults = await TextAnalysisService.GetSentiment(topStoryTitleList).ConfigureAwait(false);
 
                 foreach (var sentimentResult in sentimentResults)
                 {
-                    var story = topStoryList.Where(x => x.Title.Equals(sentimentResult.Key))?.FirstOrDefault();
+                    var story = topStoryList.First(x => x.Title.Equals(sentimentResult.Key));
                     story.TitleSentimentScore = sentimentResult.Value;
                 }
 
@@ -76,20 +76,15 @@ namespace HackerNews
             }
         }
 
-        async Task<List<StoryModel>> GetTopStories(int numberOfStories)
+        async Task<List<StoryModel>> GetTopStories(int? maximumNumberOfStories = null)
         {
             var topStoryIds = await HackerNewsAPIService.GetTopStoryIDs().ConfigureAwait(false);
 
-            var getTop20StoriesTaskList = new List<Task<StoryModel>>();
-            for (int i = 0; i < numberOfStories; i++)
-            {
-                getTop20StoriesTaskList.Add(HackerNewsAPIService.GetStory(topStoryIds[i]));
-            }
+            var getTopStoriesTaskList = new List<Task<StoryModel>>(topStoryIds.Select(HackerNewsAPIService.GetStory));
 
-            var topStoriesArray = await Task.WhenAll(getTop20StoriesTaskList).ConfigureAwait(false);
+            var topStoriesArray = await Task.WhenAll(getTopStoriesTaskList).ConfigureAwait(false);
 
-
-            return topStoriesArray.OrderByDescending(x => x.Score).ToList();
+            return topStoriesArray.Take(maximumNumberOfStories ?? int.MaxValue).OrderByDescending(x => x.Score).ToList();
         }
 
         void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager?.HandleEvent(this, message, nameof(PullToRefreshFailed));

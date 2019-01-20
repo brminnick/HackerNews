@@ -63,8 +63,12 @@ namespace HackerNews
 
             var resultsDictionary = new Dictionary<string, double?>();
 
-            foreach (var result in sentimentResults?.Documents)
-                resultsDictionary.Add(textIdDictionary[result.Id], result?.Score);
+            foreach (var result in sentimentResults?.Documents?.Where(x => x != null))
+            {
+                var doesStoryExist = resultsDictionary.ContainsKey(textIdDictionary[result.Id]);
+                if (!doesStoryExist)
+                    resultsDictionary.Add(textIdDictionary[result.Id], result.Score);
+            }
 
             return resultsDictionary;
         }

@@ -20,7 +20,7 @@ namespace HackerNews
         #endregion
 
         #region Methods
-        protected void SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyname = "", System.Action onChanged = null)
+        protected void SetProperty<T>(ref T backingStore, T value, System.Action onChanged = null, [CallerMemberName] string propertyname = "")
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))
                 return;
