@@ -13,7 +13,7 @@ namespace HackerNews.Shared
             Score = score;
             CreatedAt_UnixTime = createdAt_UnixTime;
             Title = title;
-            Url = Url;
+            Url = url;
         }
 
         public DateTimeOffset CreatedAt_DateTimeOffset => UnixTimeStampToDateTimeOffset(CreatedAt_UnixTime);
