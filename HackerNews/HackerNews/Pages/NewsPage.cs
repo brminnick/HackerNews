@@ -33,7 +33,8 @@ namespace HackerNews
 		{
 			base.OnAppearing();
 
-			_storiesListView.BeginRefresh();
+            if(_storiesListView.ItemsSource is null)
+			    _storiesListView.BeginRefresh();
 		}
 
 		void HandleItemTapped(object sender, ItemTappedEventArgs e)
