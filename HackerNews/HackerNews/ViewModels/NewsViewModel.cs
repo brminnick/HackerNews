@@ -86,7 +86,7 @@ namespace HackerNews
 
             var topStoriesArray = await Task.WhenAll(getTopStoriesTaskList).ConfigureAwait(false);
 
-            return topStoriesArray.Take(maximumNumberOfStories ?? int.MaxValue).OrderByDescending(x => x.Score).ToList();
+            return topStoriesArray.OrderByDescending(x => x.Score).Take(maximumNumberOfStories ?? int.MaxValue).ToList();
         }
 
         void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager?.HandleEvent(this, message, nameof(PullToRefreshFailed));
