@@ -1,12 +1,11 @@
-﻿using HackerNews.Shared;
+using HackerNews.Shared;
 using NUnit.Framework;
 using Xamarin.UITest;
 
 namespace HackerNews.UITests
 {
-    public class Tests : BaseTest
+    class Tests : BaseTest
     {
-
         public Tests(Platform platform) : base(platform)
         {
         }
@@ -22,13 +21,13 @@ namespace HackerNews.UITests
         {
             //Arrange
             int actualNumberOfStories;
-            const int expectedNumberOfStories = StoriesConstants.NumberOfStories;
+            const int requestedNumberOfStories = StoriesConstants.NumberOfStories;
 
             //Act
             actualNumberOfStories = NewsPage.GetStoryList().Count;
 
             //Assert
-            Assert.AreEqual(expectedNumberOfStories, actualNumberOfStories);
+            Assert.GreaterOrEqual(requestedNumberOfStories, actualNumberOfStories);
         }
     }
 }
