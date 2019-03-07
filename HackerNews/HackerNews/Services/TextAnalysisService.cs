@@ -26,7 +26,7 @@ namespace HackerNews
         {
             var sentimentDocument = new MultiLanguageBatchInput(new List<MultiLanguageInput> { { new MultiLanguageInput(id: "1", text: text) } });
 
-            var sentimentResults = await TextAnalyticsApiClient.SentimentAsync(sentimentDocument).ConfigureAwait(false);
+            var sentimentResults = await TextAnalyticsApiClient.SentimentAsync(multiLanguageBatchInput: sentimentDocument).ConfigureAwait(false);
 
             if (sentimentResults?.Errors?.Any() ?? false)
             {
@@ -53,7 +53,7 @@ namespace HackerNews
                 multiLanguageBatchInput.Documents.Add(new MultiLanguageInput(id: textGuidString, text: text));
             }
 
-            var sentimentResults = await TextAnalyticsApiClient.SentimentAsync(multiLanguageBatchInput).ConfigureAwait(false);
+            var sentimentResults = await TextAnalyticsApiClient.SentimentAsync(multiLanguageBatchInput: multiLanguageBatchInput).ConfigureAwait(false);
 
             if (sentimentResults?.Errors?.Any() ?? false)
             {

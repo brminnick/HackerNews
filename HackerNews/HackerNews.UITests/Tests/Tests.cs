@@ -28,6 +28,7 @@ namespace HackerNews.UITests
 
             //Assert
             Assert.GreaterOrEqual(requestedNumberOfStories, actualNumberOfStories);
+            Assert.Greater(actualNumberOfStories, 0);
         }
     }
 }
