@@ -2,12 +2,10 @@
 {
     public static class TextAnalysisConstants
     {
-#Error Missing Sentiment API Key
-        //Sign up for a free API Key: https://aka.ms/CognitiveServices/FaceAPI
-        public const string SentimentKey = "Your Sentiment API Key";
+#Error Missing AWS Access Key
+        public const string AccessKey = "[Your Access Key]";
 
-#Error Missing Text Analytics Base Url
-        //BaseUrl example: https://westus.api.cognitive.microsoft.com/
-        public const string BaseUrl = "Your Sentiment API Base Url";
+#Error Missing AWS Secret Key
+        public const string SecretKey = "[Your Secret Key]";
     }
 }
