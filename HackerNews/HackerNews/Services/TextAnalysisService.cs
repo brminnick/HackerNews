@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
-using Amazon.Comprehend;
-using Amazon.Runtime;
 using Amazon;
+using Amazon.Comprehend;
 using Amazon.Comprehend.Model;
-using System.Diagnostics;
+using Amazon.Runtime;
 
 namespace HackerNews
 {
