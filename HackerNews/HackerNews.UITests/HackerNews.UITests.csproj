@@ -36,6 +36,9 @@
         <PackageReference Include="Newtonsoft.Json">
           <Version>12.0.1</Version>
         </PackageReference>
+        <PackageReference Include="AWSSDK.Comprehend">
+          <Version>3.3.6.20</Version>
+        </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="AppInitializer.cs" />

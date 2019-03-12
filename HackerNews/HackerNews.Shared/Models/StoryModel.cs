@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Amazon.Comprehend;
+
 using Newtonsoft.Json;
 
 namespace HackerNews.Shared
@@ -37,7 +39,7 @@ namespace HackerNews.Shared
         [JsonProperty("url")]
         public string Url { get; }
 
-        public double? TitleSentimentScore { get; set; } = -1;
+        public SentimentType TitleSentimentScore { get; set; } = new SentimentType(null);
 
         DateTimeOffset UnixTimeStampToDateTimeOffset(long unixTimeStamp)
         {
@@ -45,21 +47,21 @@ namespace HackerNews.Shared
             return dateTimeOffset.AddSeconds(unixTimeStamp);
         }
 
-        string GetEmoji(double? sentimentScore)
+        string GetEmoji(SentimentType sentimentType)
         {
-            switch (sentimentScore)
-            {
-                case double number when (number >= 0 && number < 0.4):
-                    return EmojiConstants.SadFaceEmoji;
-                case double number when (number >= 0.4 && number <= 0.6):
-                    return EmojiConstants.NeutralFaceEmoji;
-                case double number when (number > 0.6):
-                    return EmojiConstants.HappyFaceEmoji;
-                case null:
-                    return EmojiConstants.BlankFaceEmoji;
-                default:
-                    return string.Empty;
-            }
+            if (sentimentType.Equals(SentimentType.NEUTRAL) || sentimentType.Equals(SentimentType.MIXED))
+                return EmojiConstants.NeutralFaceEmoji;
+
+            if (sentimentType.Equals(SentimentType.NEGATIVE))
+                return EmojiConstants.SadFaceEmoji;
+
+            if (sentimentType.Equals(SentimentType.POSITIVE))
+                return EmojiConstants.HappyFaceEmoji;
+
+            if (sentimentType.Equals(null))
+                return EmojiConstants.BlankFaceEmoji;
+
+            return string.Empty;
         }
     }
 }

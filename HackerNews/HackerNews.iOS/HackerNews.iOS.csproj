@@ -109,7 +109,7 @@
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
         <PackageReference Include="Xamarin.Forms" Version="3.6.0.220655" />
-        <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="3.0.0" />
+        <PackageReference Include="AWSSDK.Comprehend" Version="3.3.6.20" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="2.1.0" />
         <PackageReference Include="Polly" Version="7.0.3" />
         <PackageReference Include="Refit" Version="4.6.90" />

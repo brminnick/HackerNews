@@ -3,94 +3,81 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
-using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
-using Microsoft.Rest;
+using Amazon.Comprehend;
+using Amazon.Runtime;
+using Amazon;
+using Amazon.Comprehend.Model;
+using System.Diagnostics;
 
 namespace HackerNews
 {
     static class TextAnalysisService
     {
         #region Constant Fields
-        readonly static Lazy<TextAnalyticsClient> _textAnalyticsApiClientHolder = new Lazy<TextAnalyticsClient>(() =>
-            new TextAnalyticsClient(new ApiKeyServiceClientCredentials(TextAnalysisConstants.SentimentKey)) { Endpoint = TextAnalysisConstants.BaseUrl });
+        readonly static Lazy<AmazonComprehendClient> _comprehendClient = new Lazy<AmazonComprehendClient>(() =>
+            new AmazonComprehendClient(new BasicAWSCredentials(TextAnalysisConstants.AccessKey, TextAnalysisConstants.SecretKey), RegionEndpoint.USWest2));
 
         #endregion
 
         #region Properties
-        static TextAnalyticsClient TextAnalyticsApiClient => _textAnalyticsApiClientHolder.Value;
+        static AmazonComprehendClient ComprehendClient => _comprehendClient.Value;
         #endregion
 
         #region Methods
-        public static async Task<double?> GetSentiment(string text)
+        public static async Task<SentimentType> GetSentiment(string text)
         {
-            var sentimentDocument = new MultiLanguageBatchInput(new List<MultiLanguageInput> { { new MultiLanguageInput(id: "1", text: text) } });
-
-            var sentimentResults = await TextAnalyticsApiClient.SentimentAsync(multiLanguageBatchInput: sentimentDocument).ConfigureAwait(false);
-
-            if (sentimentResults?.Errors?.Any() ?? false)
+            var sentimentDocument = new DetectSentimentRequest
             {
-                var exceptionList = sentimentResults.Errors.Select(x => new Exception($"Id: {x.Id}, Message: {x.Message}"));
-                throw new AggregateException(exceptionList);
-            }
+                Text = text,
+                LanguageCode = LanguageCode.En
+            };
 
-            var documentResult = sentimentResults?.Documents?.FirstOrDefault();
+            var sentimentResults = await ComprehendClient.DetectSentimentAsync(sentimentDocument).ConfigureAwait(false);
 
-            return documentResult?.Score;
+            return sentimentResults?.Sentiment;
         }
 
-        public static async Task<Dictionary<string, double?>> GetSentiment(List<string> textList)
+        public static async Task<Dictionary<string, SentimentType>> GetSentiment(List<string> textList)
         {
-            var textIdDictionary = new Dictionary<string, string>();
-            var multiLanguageBatchInput = new MultiLanguageBatchInput(new List<MultiLanguageInput>());
+            Debug.WriteLine($"textList.Count: {textList.Count}");
 
-            foreach (var text in textList)
+            var resultsDictionary = new Dictionary<string, SentimentType>();
+
+            var currentTextIndex = 0;
+            while (currentTextIndex < textList.Count - 1)
             {
-                var textGuidString = Guid.NewGuid().ToString();
+                Debug.WriteLine($"currentTextIndex: {currentTextIndex}");
 
-                textIdDictionary.Add(textGuidString, text);
+                var multiLanguageBatchInput = new BatchDetectSentimentRequest { LanguageCode = LanguageCode.En };
 
-                multiLanguageBatchInput.Documents.Add(new MultiLanguageInput(id: textGuidString, text: text));
-            }
+                while (multiLanguageBatchInput.TextList.Count < 25 && currentTextIndex < textList.Count)
+                {
+                    multiLanguageBatchInput.TextList.Add(textList[currentTextIndex++]);
+                }
 
-            var sentimentResults = await TextAnalyticsApiClient.SentimentAsync(multiLanguageBatchInput: multiLanguageBatchInput).ConfigureAwait(false);
+                var sentimentResults = await ComprehendClient.BatchDetectSentimentAsync(multiLanguageBatchInput).ConfigureAwait(false);
 
-            if (sentimentResults?.Errors?.Any() ?? false)
-            {
-                var exceptionList = sentimentResults.Errors.Select(x => new Exception($"Id: {x.Id}, Message: {x.Message}"));
-                throw new AggregateException(exceptionList);
-            }
+                if (sentimentResults?.ErrorList?.Any() ?? false)
+                {
+                    var exceptionList = sentimentResults.ErrorList.Select(x => new Exception($"Error Code: {x.ErrorCode}, Message: {x.ErrorMessage}"));
+                    throw new AggregateException(exceptionList);
+                }
 
-            var resultsDictionary = new Dictionary<string, double?>();
+                foreach (var result in sentimentResults?.ResultList?.Where(x => x != null))
+                {
+                    var textListIndex = (int)Math.Floor((currentTextIndex / 25.0) - 1) * 25 + result.Index;
+                    Debug.WriteLine($"\ttextListIndex: {textListIndex}");
 
-            foreach (var result in sentimentResults?.Documents?.Where(x => x != null))
-            {
-                var doesStoryExist = resultsDictionary.ContainsKey(textIdDictionary[result.Id]);
-                if (!doesStoryExist)
-                    resultsDictionary.Add(textIdDictionary[result.Id], result.Score);
+                    var doesStoryExist = resultsDictionary.ContainsKey(textList[textListIndex]);
+                    if (!doesStoryExist)
+                        resultsDictionary.Add(textList[textListIndex], result.Sentiment);
+                }
+
+                multiLanguageBatchInput.TextList.Clear();
             }
 
             return resultsDictionary;
         }
         #endregion
     }
-
-    #region Classes
-    class ApiKeyServiceClientCredentials : ServiceClientCredentials
-    {
-        readonly string _subscriptionKey;
-
-        public ApiKeyServiceClientCredentials(string subscriptionKey) => _subscriptionKey = subscriptionKey;
-
-        public override Task ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
-        {
-            if (request is null)
-                throw new ArgumentNullException(nameof(request));
-
-            request.Headers.Add("Ocp-Apim-Subscription-Key", _subscriptionKey);
-
-            return Task.CompletedTask;
-        }
-    }
-    #endregion
 }
