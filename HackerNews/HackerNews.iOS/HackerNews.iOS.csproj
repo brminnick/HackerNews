@@ -108,11 +108,11 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-        <PackageReference Include="Xamarin.Forms" Version="3.6.0.220655" />
+        <PackageReference Include="Xamarin.Forms" Version="3.6.0.293080" />
         <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="3.0.0" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="2.1.0" />
-        <PackageReference Include="Polly" Version="7.0.3" />
-        <PackageReference Include="Refit" Version="4.6.90" />
+        <PackageReference Include="Polly" Version="7.1.0" />
+        <PackageReference Include="Refit" Version="4.6.107" />
         <PackageReference Include="Xamarin.TestCloud.Agent">
           <Version>0.21.7</Version>
         </PackageReference>
