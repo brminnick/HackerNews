@@ -107,14 +107,14 @@
         <Compile Include="Services\HelperMethods.cs" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-        <PackageReference Include="Xamarin.Forms" Version="3.6.0.293080" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+        <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
         <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="3.0.0" />
-        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="2.1.0" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="2.1.1" />
         <PackageReference Include="Polly" Version="7.1.0" />
         <PackageReference Include="Refit" Version="4.6.107" />
         <PackageReference Include="Xamarin.TestCloud.Agent">
-          <Version>0.21.7</Version>
+          <Version>0.21.8</Version>
         </PackageReference>
     </ItemGroup>
     <ItemGroup>
