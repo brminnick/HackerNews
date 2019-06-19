@@ -91,7 +91,6 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
-        <Folder Include="Services\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -103,23 +102,24 @@
     <ItemGroup>
         <Compile Include="Main.cs" />
         <Compile Include="AppDelegate.cs" />
-        <Compile Include="Services\BrowserServices_iOS.cs" />
-        <Compile Include="Services\HelperMethods.cs" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="Xamarin.Forms" Version="4.0.0.482894" />
+        <PackageReference Include="Xamarin.Forms" Version="4.0.0.497661" />
         <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="3.0.0" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="2.1.1" />
         <PackageReference Include="Polly" Version="7.1.0" />
-        <PackageReference Include="Refit" Version="4.6.107" />
+        <PackageReference Include="Refit" Version="4.7.9" />
         <PackageReference Include="Xamarin.TestCloud.Agent">
           <Version>0.21.8</Version>
+        </PackageReference>
+        <PackageReference Include="Xamarin.Essentials">
+          <Version>1.1.0</Version>
         </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\HackerNews\HackerNews.csproj">
-            <Project>{A42556A0-5B26-4FE1-A15B-1AD54ABA4C57}</Project>
+            <Project>{2BF975FB-67A3-4B18-B616-83726C493EFB}</Project>
             <Name>HackerNews</Name>
         </ProjectReference>
     </ItemGroup>

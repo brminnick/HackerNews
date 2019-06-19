@@ -1,10 +1,10 @@
-﻿using Xamarin.Forms;
-
-using HackerNews.Shared;
+﻿using HackerNews.Shared;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace HackerNews
 {
-	public class NewsPage : BaseContentPage<NewsViewModel>
+    public class NewsPage : BaseContentPage<NewsViewModel>
 	{
 		#region Constant Fields
 		readonly ListView _storiesListView;
@@ -37,19 +37,26 @@ namespace HackerNews
 			    _storiesListView.BeginRefresh();
 		}
 
-		void HandleItemTapped(object sender, ItemTappedEventArgs e)
-		{
-			var listView = sender as ListView;
-			var storyTapped = e.Item as StoryModel;
+        void HandleItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (sender is ListView listView && e?.Item is StoryModel storyTapped)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    listView.SelectedItem = null;
 
-			Device.BeginInvokeOnMainThread(async () =>
-			{
-				listView.SelectedItem = null;
-				await DependencyService.Get<IBrowserServices>()?.OpenBrowser(storyTapped?.Url);
-			});
-		}
+                    var browserOptions = new BrowserLaunchOptions
+                    {
+                        PreferredControlColor = ColorConstants.BrowserNavigationBarTextColor,
+                        PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
+                    };
 
-		void HandlePullToRefreshFailed(object sender, string message) =>
+                    await Browser.OpenAsync(storyTapped.Url, browserOptions);
+                });
+            }
+        }
+
+        void HandlePullToRefreshFailed(object sender, string message) =>
 			Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Refresh Failed", message, "OK"));
 	}
 }
