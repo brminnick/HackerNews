@@ -32,10 +32,8 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="NUnit" Version="3.12.0" />
-        <PackageReference Include="Xamarin.UITest" Version="3.0.0" />
-        <PackageReference Include="Newtonsoft.Json">
-          <Version>12.0.2</Version>
-        </PackageReference>
+        <PackageReference Include="Xamarin.UITest" Version="3.0.3" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="AppInitializer.cs" />
@@ -52,10 +50,10 @@
             <Private>False</Private>
         </ProjectReference>
         <ProjectReference Include="..\HackerNews.Droid\HackerNews.Droid.csproj">
-          <Project>{E419B244-E072-4EAB-B1C7-07886925C217}</Project>
-          <Name>HackerNews.Droid</Name>
-          <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-          <Private>False</Private>
+            <Project>{E419B244-E072-4EAB-B1C7-07886925C217}</Project>
+            <Name>HackerNews.Droid</Name>
+            <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+            <Private>False</Private>
         </ProjectReference>
     </ItemGroup>
     <Import Project="..\HackerNews.Shared\HackerNews.Shared.projitems" Label="Shared" Condition="Exists('..\HackerNews.Shared\HackerNews.Shared.projitems')" />

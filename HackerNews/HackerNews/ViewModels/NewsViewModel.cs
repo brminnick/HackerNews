@@ -13,27 +13,20 @@ namespace HackerNews
 {
     public class NewsViewModel : BaseViewModel
     {
-        #region Constant Fields
         readonly WeakEventManager<string> _pullToRefreshEventManager = new WeakEventManager<string>();
-        #endregion
 
-        #region Fields
         bool _isListRefreshing;
         ICommand _refreshCommand;
         List<StoryModel> _topStoryList;
-        #endregion
 
-        #region Events
         public event EventHandler<string> PullToRefreshFailed
         {
             add => _pullToRefreshEventManager.AddEventHandler(value);
             remove => _pullToRefreshEventManager.RemoveEventHandler(value);
         }
-        #endregion
 
-        #region Properties
         public ICommand RefreshCommand => _refreshCommand ??
-            (_refreshCommand = new AsyncCommand(ExecuteRefreshCommand, continueOnCapturedContext: false));
+            (_refreshCommand = new AsyncCommand(ExecuteRefreshCommand));
 
         public List<StoryModel> TopStoryList
         {
@@ -46,13 +39,9 @@ namespace HackerNews
             get => _isListRefreshing;
             set => SetProperty(ref _isListRefreshing, value);
         }
-        #endregion
 
-        #region Methods
         async Task ExecuteRefreshCommand()
         {
-            IsListRefreshing = true;
-
             try
             {
                 var topStoryList = await GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false);
@@ -89,7 +78,6 @@ namespace HackerNews
             return topStoriesArray.OrderByDescending(x => x.Score).Take(maximumNumberOfStories ?? int.MaxValue).ToList();
         }
 
-        void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager?.HandleEvent(this, message, nameof(PullToRefreshFailed));
-        #endregion
+        void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager.HandleEvent(this, message, nameof(PullToRefreshFailed));
     }
 }

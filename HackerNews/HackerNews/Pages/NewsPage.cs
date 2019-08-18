@@ -6,9 +6,7 @@ namespace HackerNews
 {
     public class NewsPage : BaseContentPage<NewsViewModel>
 	{
-		#region Constant Fields
 		readonly ListView _storiesListView;
-		#endregion
 
 		public NewsPage() : base("Top Stories")
 		{

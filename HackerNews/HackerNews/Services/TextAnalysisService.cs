@@ -11,38 +11,25 @@ namespace HackerNews
 {
     static class TextAnalysisService
     {
-        #region Constant Fields
         readonly static Lazy<TextAnalyticsClient> _textAnalyticsApiClientHolder = new Lazy<TextAnalyticsClient>(() =>
             new TextAnalyticsClient(new ApiKeyServiceClientCredentials(TextAnalysisConstants.SentimentKey)) { Endpoint = TextAnalysisConstants.BaseUrl });
 
-        #endregion
-
-        #region Properties
         static TextAnalyticsClient TextAnalyticsApiClient => _textAnalyticsApiClientHolder.Value;
-        #endregion
 
-        #region Methods
         public static async Task<double?> GetSentiment(string text)
         {
-            var sentimentDocument = new MultiLanguageBatchInput(new List<MultiLanguageInput> { { new MultiLanguageInput(id: "1", text: text) } });
+            var sentimentResult = await TextAnalyticsApiClient.SentimentAsync(text).ConfigureAwait(false);
 
-            var sentimentResults = await TextAnalyticsApiClient.SentimentAsync(multiLanguageBatchInput: sentimentDocument).ConfigureAwait(false);
+            if (!string.IsNullOrEmpty(sentimentResult?.ErrorMessage))
+                throw new Exception(sentimentResult?.ErrorMessage);
 
-            if (sentimentResults?.Errors?.Any() ?? false)
-            {
-                var exceptionList = sentimentResults.Errors.Select(x => new Exception($"Id: {x.Id}, Message: {x.Message}"));
-                throw new AggregateException(exceptionList);
-            }
-
-            var documentResult = sentimentResults?.Documents?.FirstOrDefault();
-
-            return documentResult?.Score;
+            return sentimentResult?.Score;
         }
 
-        public static async Task<Dictionary<string, double?>> GetSentiment(List<string> textList)
+        public static async Task<Dictionary<string, double?>> GetSentiment(IEnumerable<string> textList)
         {
             var textIdDictionary = new Dictionary<string, string>();
-            var multiLanguageBatchInput = new MultiLanguageBatchInput(new List<MultiLanguageInput>());
+            var multiLanguageBatchInput = new MultiLanguageBatchInput(Enumerable.Empty<MultiLanguageInput>().ToList());
 
             foreach (var text in textList)
             {
@@ -50,12 +37,12 @@ namespace HackerNews
 
                 textIdDictionary.Add(textGuidString, text);
 
-                multiLanguageBatchInput.Documents.Add(new MultiLanguageInput(id: textGuidString, text: text));
+                multiLanguageBatchInput.Documents.Add(new MultiLanguageInput(textGuidString, text));
             }
 
-            var sentimentResults = await TextAnalyticsApiClient.SentimentAsync(multiLanguageBatchInput: multiLanguageBatchInput).ConfigureAwait(false);
+            var sentimentResults = await TextAnalyticsApiClient.SentimentBatchAsync(multiLanguageBatchInput).ConfigureAwait(false);
 
-            if (sentimentResults?.Errors?.Any() ?? false)
+            if (sentimentResults?.Errors?.Any() is true)
             {
                 var exceptionList = sentimentResults.Errors.Select(x => new Exception($"Id: {x.Id}, Message: {x.Message}"));
                 throw new AggregateException(exceptionList);
@@ -66,16 +53,15 @@ namespace HackerNews
             foreach (var result in sentimentResults?.Documents?.Where(x => x != null))
             {
                 var doesStoryExist = resultsDictionary.ContainsKey(textIdDictionary[result.Id]);
+
                 if (!doesStoryExist)
                     resultsDictionary.Add(textIdDictionary[result.Id], result.Score);
             }
 
             return resultsDictionary;
         }
-        #endregion
     }
 
-    #region Classes
     class ApiKeyServiceClientCredentials : ServiceClientCredentials
     {
         readonly string _subscriptionKey;
@@ -92,5 +78,4 @@ namespace HackerNews
             return Task.CompletedTask;
         }
     }
-    #endregion
 }
