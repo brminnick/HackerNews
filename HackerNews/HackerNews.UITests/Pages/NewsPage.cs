@@ -24,7 +24,7 @@ namespace HackerNews.UITests
                 switch (App)
                 {
                     case AndroidApp androidApp:
-                        return (bool)App.Query(x => x.Class("SwipeRefreshLayout").Invoke("isRefreshing")).FirstOrDefault();
+                        return (bool)App.Query(x => x.Class("ListViewRenderer_SwipeRefreshLayoutWithFixedNestedScrolling").Invoke("isRefreshing")).FirstOrDefault();
 
                     case iOSApp iosApp:
                         return App.Query(x => x.Class("UIRefreshControl")).Any();
@@ -44,7 +44,7 @@ namespace HackerNews.UITests
                 counter++;
 
                 if (counter >= timeoutInSeconds)
-                    throw new Exception($"Loading the list took longer than {timeoutInSeconds}");
+                    throw new Exception($"Loading the list took longer than {timeoutInSeconds}s");
             }
         }
 
