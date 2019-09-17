@@ -14,6 +14,7 @@ namespace HackerNews
 
             _storiesListView = new ListView(ListViewCachingStrategy.RecycleElement)
 			{
+                RefreshControlColor = Color.Black,
 				ItemTemplate = new DataTemplate(typeof(StoryTextCell)),
 				IsPullToRefreshEnabled = true,
 				BackgroundColor = Color.FromHex("F6F6EF"),
