@@ -2,6 +2,9 @@
 
 A Xamarin.Forms app for displaying the top posts on Hacker News.
 
-This app uses the [Text Analytics API](https://azure.microsoft.com/services/cognitive-services/text-analytics?WT.mc_id=HackerNews-github-bramin) from [Microsoft Cognitive Services](https://azure.microsoft.com/services/cognitive-services?WT.mc_id=HackerNews-github-bramin) to analyze the sentiment of each headline. If a headline is happy, 😃 will appear. If a headline is sad, ☹️ will appear. If a headline is neither happy nor sad, 😐 will appear.
+This app also uses the [Text Analytics API](https://azure.microsoft.com/services/cognitive-services/text-analytics?WT.mc_id=HackerNews-github-bramin) from [Microsoft Cognitive Services](https://azure.microsoft.com/services/cognitive-services?WT.mc_id=HackerNews-github-bramin) to analyze the sentiment of each headline. 
+- 😃 Headline is Happy 
+- ☹️ Headline is Sad 
+- 😐 Headline is Neither Happy or Sad
 
-![](https://github.com/brminnick/Videos/blob/master/HackerNews/HackerNewsSentiment.gif)
+![Hacker News Demo](https://user-images.githubusercontent.com/13558917/66956918-2873bb80-f01a-11e9-839c-6e935c0b606c.gif)
