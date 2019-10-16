@@ -22,6 +22,7 @@ namespace HackerNews
 
         public NewsViewModel()
         {
+            //Ensure Observable Collection is thread-safe https://codetraveler.io/2019/09/11/using-observablecollection-in-a-multi-threaded-xamarin-forms-application/
             BindingBase.EnableCollectionSynchronization(TopStoryCollection, null, ObservableCollectionCallback);
         }
 
@@ -86,7 +87,7 @@ namespace HackerNews
             }
         }
 
-        void InsertIntoSortedCollection<T>(in ObservableCollection<T> collection, in Comparison<T> comparison, T modelToInsert)
+        void InsertIntoSortedCollection<T>(in ObservableCollection<T> collection, in Comparison<T> comparison, in T modelToInsert)
         {
             if (collection.Count is 0)
             {
@@ -108,6 +109,7 @@ namespace HackerNews
             }
         }
 
+        //Ensure Observable Collection is thread-safe https://codetraveler.io/2019/09/11/using-observablecollection-in-a-multi-threaded-xamarin-forms-application/
         void ObservableCollectionCallback(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
         {
             lock (collection)
