@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Linq;
-using System.Windows.Input;
-using System.Threading.Tasks;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
-
 using HackerNews.Shared;
-using System.Collections;
 using Xamarin.Forms;
 
 namespace HackerNews
@@ -50,7 +49,14 @@ namespace HackerNews
             {
                 await foreach (var story in GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false))
                 {
-                    story.TitleSentimentScore = await TextAnalysisService.GetSentiment(story.Title).ConfigureAwait(false);
+                    try
+                    {
+                        story.TitleSentimentScore = await TextAnalysisService.GetSentiment(story.Title).ConfigureAwait(false);
+                    }
+                    catch(Exception e)
+                    {
+                        Debug.WriteLine($"Sentiment Analysis Failed. \n{e}");
+                    }
 
                     if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title)))
                         InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story);
