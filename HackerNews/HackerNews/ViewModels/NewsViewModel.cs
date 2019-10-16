@@ -3,11 +3,14 @@ using System.Linq;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 
 using HackerNews.Shared;
+using System.Collections;
+using Xamarin.Forms;
 
 namespace HackerNews
 {
@@ -16,8 +19,12 @@ namespace HackerNews
         readonly WeakEventManager<string> _pullToRefreshEventManager = new WeakEventManager<string>();
 
         bool _isListRefreshing;
-        ICommand _refreshCommand;
-        List<StoryModel> _topStoryList;
+        ICommand? _refreshCommand;
+
+        public NewsViewModel()
+        {
+            BindingBase.EnableCollectionSynchronization(TopStoryCollection, null, ObservableCollectionCallback);
+        }
 
         public event EventHandler<string> PullToRefreshFailed
         {
@@ -25,14 +32,9 @@ namespace HackerNews
             remove => _pullToRefreshEventManager.RemoveEventHandler(value);
         }
 
-        public ICommand RefreshCommand => _refreshCommand ??
-            (_refreshCommand = new AsyncCommand(ExecuteRefreshCommand));
+        public ObservableCollection<StoryModel> TopStoryCollection { get; } = new ObservableCollection<StoryModel>();
 
-        public List<StoryModel> TopStoryList
-        {
-            get => _topStoryList;
-            set => SetProperty(ref _topStoryList, value);
-        }
+        public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(ExecuteRefreshCommand);
 
         public bool IsListRefreshing
         {
@@ -42,20 +44,17 @@ namespace HackerNews
 
         async Task ExecuteRefreshCommand()
         {
+            TopStoryCollection.Clear();
+
             try
             {
-                var topStoryList = await GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false);
-
-                var topStoryTitleList = topStoryList.Select(x => x.Title).ToList();
-                var sentimentResults = await TextAnalysisService.GetSentiment(topStoryTitleList).ConfigureAwait(false);
-
-                foreach (var sentimentResult in sentimentResults)
+                await foreach (var story in GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false))
                 {
-                    var story = topStoryList.First(x => x.Title.Equals(sentimentResult.Key));
-                    story.TitleSentimentScore = sentimentResult.Value;
-                }
+                    story.TitleSentimentScore = await TextAnalysisService.GetSentiment(story.Title).ConfigureAwait(false);
 
-                TopStoryList = topStoryList;
+                    if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title)))
+                        InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story);
+                }
             }
             catch (Exception e)
             {
@@ -67,15 +66,48 @@ namespace HackerNews
             }
         }
 
-        async Task<List<StoryModel>> GetTopStories(int? maximumNumberOfStories = null)
+        async IAsyncEnumerable<StoryModel> GetTopStories(int? storyCount = int.MaxValue)
         {
             var topStoryIds = await HackerNewsAPIService.GetTopStoryIDs().ConfigureAwait(false);
+            var getTopStoryTaskList = topStoryIds.Select(HackerNewsAPIService.GetStory).ToList();
 
-            var getTopStoriesTaskList = new List<Task<StoryModel>>(topStoryIds.Select(HackerNewsAPIService.GetStory));
+            while (getTopStoryTaskList.Any() && storyCount-- > 0)
+            {
+                var completedGetStoryTask = await Task.WhenAny(getTopStoryTaskList).ConfigureAwait(false);
+                getTopStoryTaskList.Remove(completedGetStoryTask);
 
-            var topStoriesArray = await Task.WhenAll(getTopStoriesTaskList).ConfigureAwait(false);
+                yield return await completedGetStoryTask.ConfigureAwait(false);
+            }
+        }
 
-            return topStoriesArray.OrderByDescending(x => x.Score).Take(maximumNumberOfStories ?? int.MaxValue).ToList();
+        void InsertIntoSortedCollection<T>(in ObservableCollection<T> collection, in Comparison<T> comparison, T modelToInsert)
+        {
+            if (collection.Count is 0)
+            {
+                collection.Add(modelToInsert);
+            }
+            else
+            {
+                int index = 0;
+                foreach (var model in collection)
+                {
+                    if (comparison(model, modelToInsert) >= 0)
+                    {
+                        collection.Insert(index, modelToInsert);
+                        return;
+                    }
+
+                    index++;
+                }
+            }
+        }
+
+        void ObservableCollectionCallback(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
+        {
+            lock (collection)
+            {
+                accessMethod?.Invoke();
+            }
         }
 
         void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager.HandleEvent(this, message, nameof(PullToRefreshFailed));

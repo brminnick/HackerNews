@@ -8,17 +8,16 @@ namespace HackerNews
     {
         public static string GetSerializedStoryList()
         {
-            var storyList = GetViewModel().TopStoryList;
+            var storyList = GetViewModel().TopStoryCollection;
             return JsonConvert.SerializeObject(storyList);
         }
 
         static NewsPage GetNewsPage()
         {
-            var mainPage = Application.Current.MainPage as NavigationPage;
-            return mainPage.RootPage as NewsPage;
+            var mainPage = (NavigationPage)Application.Current.MainPage;
+            return (NewsPage)mainPage.RootPage;
         }
 
-        static NewsViewModel GetViewModel() => GetNewsPage().BindingContext as NewsViewModel;
-
+        static NewsViewModel GetViewModel() => (NewsViewModel)GetNewsPage().BindingContext;
     }
 }

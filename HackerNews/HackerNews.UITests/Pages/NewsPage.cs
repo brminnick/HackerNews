@@ -17,23 +17,12 @@ namespace HackerNews.UITests
         {
         }
 
-        public bool IsRefreshActivityIndicatorDisplayed
+        public bool IsRefreshActivityIndicatorDisplayed => App switch
         {
-            get
-            {
-                switch (App)
-                {
-                    case AndroidApp androidApp:
-                        return (bool)App.Query(x => x.Class("ListViewRenderer_SwipeRefreshLayoutWithFixedNestedScrolling").Invoke("isRefreshing")).FirstOrDefault();
-
-                    case iOSApp iosApp:
-                        return App.Query(x => x.Class("UIRefreshControl")).Any();
-
-                    default:
-                        throw new NotSupportedException();
-                }
-            }
-        }
+            AndroidApp androidApp => (bool)(androidApp.Query(x => x.Class("ListViewRenderer_SwipeRefreshLayoutWithFixedNestedScrolling")?.Invoke("isRefreshing"))?.FirstOrDefault() ?? false),
+            iOSApp iosApp => iosApp.Query(x => x.Class("UIRefreshControl")).Any(),
+            _ => throw new NotSupportedException(),
+        };
 
         public void WaitForNoActivityIndicator(int timeoutInSeconds = 60)
         {
@@ -57,19 +46,12 @@ namespace HackerNews.UITests
 
         public List<StoryModel> GetStoryList()
         {
-            string serializedStoryList;
-
-            switch (App)
+            var serializedStoryList = App switch
             {
-                case iOSApp iosApp:
-                    serializedStoryList = iosApp.Invoke("getSerializedStoryList:", "").ToString();
-                    break;
-                case AndroidApp androidApp:
-                    serializedStoryList = androidApp.Invoke("GetSerializedStoryList").ToString();
-                    break;
-                default:
-                    throw new NotSupportedException("Platform Not Supported");
-            }
+                iOSApp iosApp => iosApp.Invoke("getSerializedStoryList:", "").ToString(),
+                AndroidApp androidApp => androidApp.Invoke("GetSerializedStoryList").ToString(),
+                _ => throw new NotSupportedException("Platform Not Supported"),
+            };
 
             return Newtonsoft.Json.JsonConvert.DeserializeObject<List<StoryModel>>(serializedStoryList);
         }

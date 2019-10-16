@@ -6,17 +6,11 @@ namespace HackerNews.UITests
 {
     public static class AppInitializer
     {
-        public static IApp StartApp(Platform platform)
+        public static IApp StartApp(Platform platform) => platform switch
         {
-            switch (platform)
-            {
-                case Platform.Android:
-                    return ConfigureApp.Android.StartApp();
-                case Platform.iOS:
-                    return ConfigureApp.iOS.StartApp();
-                default:
-                    throw new NotSupportedException();
-            }
-        }
+            Platform.Android => ConfigureApp.Android.StartApp(),
+            Platform.iOS => ConfigureApp.iOS.StartApp(),
+            _ => throw new NotSupportedException(),
+        };
     }
 }

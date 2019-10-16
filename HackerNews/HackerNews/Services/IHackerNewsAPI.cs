@@ -10,7 +10,7 @@ namespace HackerNews
     public interface IHackerNewsAPI
     {
         [Get("/topstories.json?print=pretty")]
-        Task<List<string>> GetTopStoryIDs();
+        Task<IReadOnlyList<string>> GetTopStoryIDs();
 
         [Get("/item/{storyId}.json?print=pretty")]
         Task<StoryModel> GetStory(string storyId);

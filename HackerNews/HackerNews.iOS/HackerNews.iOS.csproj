@@ -9,6 +9,8 @@
         <RootNamespace>HackerNews.iOS</RootNamespace>
         <AssemblyName>HackerNews.iOS</AssemblyName>
         <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+        <Nullable>enable</Nullable>
+        <LangVersion>8.0</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
         <DebugSymbols>true</DebugSymbols>
@@ -91,6 +93,7 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
+        <Folder Include="CustomRenderers\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -102,10 +105,11 @@
     <ItemGroup>
         <Compile Include="Main.cs" />
         <Compile Include="AppDelegate.cs" />
+        <Compile Include="CustomRenderers\LargeTitleNavigationRenderer.cs" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="Xamarin.Forms" Version="4.2.0.815419" />
+        <PackageReference Include="Xamarin.Forms" Version="4.2.0.848062" />
         <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="4.0.0" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="3.1.0" />
         <PackageReference Include="Polly" Version="7.1.1" />

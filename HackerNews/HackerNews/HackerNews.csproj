@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<LangVersion>latest</LangVersion>
-	</PropertyGroup>
-	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-		<PackageReference Include="Xamarin.Forms" Version="4.2.0.815419" />
-		<PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="4.0.0" />
-		<PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="3.1.0" />
-		<PackageReference Include="Polly" Version="7.1.1" />
-		<PackageReference Include="Refit" Version="4.7.51" />
-		<PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Pages\Base\" />
-	  <Folder Include="ViewModels\Base\" />
-	  <Folder Include="Views\" />
-	  <Folder Include="Views\News\" />
-	  <Folder Include="Services\" />
-	  <Folder Include="Constants\" />
-	</ItemGroup>
-	<Import Project="..\HackerNews.Shared\HackerNews.Shared.projitems" Label="Shared" Condition="Exists('..\HackerNews.Shared\HackerNews.Shared.projitems')" />
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+        <PackageReference Include="Xamarin.Forms" Version="4.2.0.848062" />
+        <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="4.0.0" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="3.1.0" />
+        <PackageReference Include="Polly" Version="7.1.1" />
+        <PackageReference Include="Refit" Version="4.7.51" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Pages\Base\" />
+        <Folder Include="ViewModels\Base\" />
+        <Folder Include="Views\" />
+        <Folder Include="Views\News\" />
+        <Folder Include="Services\" />
+        <Folder Include="Constants\" />
+    </ItemGroup>
+    <Import Project="..\HackerNews.Shared\HackerNews.Shared.projitems" Label="Shared" Condition="Exists('..\HackerNews.Shared\HackerNews.Shared.projitems')" />
 </Project>

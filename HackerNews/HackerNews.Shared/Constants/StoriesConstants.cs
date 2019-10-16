@@ -2,6 +2,6 @@
 {
     public static class StoriesConstants
     {
-        public const int NumberOfStories = 500;
+        public const int NumberOfStories = 50;
     }
 }
