@@ -54,13 +54,13 @@ namespace HackerNews
                     {
                         story.TitleSentimentScore = await TextAnalysisService.GetSentiment(story.Title).ConfigureAwait(false);
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Debug.WriteLine($"Sentiment Analysis Failed. \n{e}");
                     }
 
                     if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title)))
-                        InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story);
+                        await InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story).ConfigureAwait(false);
                 }
             }
             catch (Exception e)
@@ -87,26 +87,29 @@ namespace HackerNews
             }
         }
 
-        void InsertIntoSortedCollection<T>(in ObservableCollection<T> collection, in Comparison<T> comparison, in T modelToInsert)
+        Task InsertIntoSortedCollection<T>(ObservableCollection<T> collection, Comparison<T> comparison, T modelToInsert)
         {
-            if (collection.Count is 0)
+            return Device.InvokeOnMainThreadAsync(() =>
             {
-                collection.Add(modelToInsert);
-            }
-            else
-            {
-                int index = 0;
-                foreach (var model in collection)
+                if (collection.Count is 0)
                 {
-                    if (comparison(model, modelToInsert) >= 0)
-                    {
-                        collection.Insert(index, modelToInsert);
-                        return;
-                    }
-
-                    index++;
+                    collection.Add(modelToInsert);
                 }
-            }
+                else
+                {
+                    int index = 0;
+                    foreach (var model in collection)
+                    {
+                        if (comparison(model, modelToInsert) >= 0)
+                        {
+                            collection.Insert(index, modelToInsert);
+                            return;
+                        }
+
+                        index++;
+                    }
+                }
+            });
         }
 
         //Ensure Observable Collection is thread-safe https://codetraveler.io/2019/09/11/using-observablecollection-in-a-multi-threaded-xamarin-forms-application/

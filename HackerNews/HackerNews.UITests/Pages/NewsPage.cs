@@ -44,7 +44,7 @@ namespace HackerNews.UITests
             WaitForNoActivityIndicator();
         }
 
-        public List<StoryModel> GetStoryList()
+        public IEnumerable<StoryModel> GetStoryList()
         {
             var serializedStoryList = App switch
             {
@@ -53,7 +53,7 @@ namespace HackerNews.UITests
                 _ => throw new NotSupportedException("Platform Not Supported"),
             };
 
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<List<StoryModel>>(serializedStoryList);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<StoryModel>>(serializedStoryList);
         }
     }
 }

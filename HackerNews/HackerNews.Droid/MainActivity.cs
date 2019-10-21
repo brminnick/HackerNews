@@ -24,6 +24,7 @@ namespace HackerNews.Droid
 
             base.OnCreate(savedInstanceState);
 
+            global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
 

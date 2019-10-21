@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using HackerNews.Shared;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -7,45 +10,56 @@ namespace HackerNews
 {
     public class NewsPage : BaseContentPage<NewsViewModel>
     {
-        readonly ListView _storiesListView;
+        readonly RefreshView _storiesCollectionRefreshView;
 
         public NewsPage() : base("Top Stories")
         {
             ViewModel.PullToRefreshFailed += HandlePullToRefreshFailed;
 
-            _storiesListView = new ListView(ListViewCachingStrategy.RecycleElement)
-            {
-                RefreshControlColor = Color.Black,
-                ItemTemplate = new DataTemplate(typeof(StoryTextCell)),
-                IsPullToRefreshEnabled = true,
-                BackgroundColor = Color.FromHex("F6F6EF"),
-                SeparatorVisibility = SeparatorVisibility.None
-            };
-            _storiesListView.ItemTapped += HandleItemTapped;
-            _storiesListView.SetBinding(ListView.ItemsSourceProperty, nameof(ViewModel.TopStoryCollection));
-            _storiesListView.SetBinding(ListView.IsRefreshingProperty, nameof(ViewModel.IsListRefreshing));
-            _storiesListView.SetBinding(ListView.RefreshCommandProperty, nameof(ViewModel.RefreshCommand));
+            var backgroundColor = Color.FromHex("F6F6EF");
 
-            Content = _storiesListView;
+            var storiesCollectionView = new CollectionView
+            {
+                BackgroundColor = backgroundColor,
+                ItemTemplate = new StoryDataTemplateSelector(),
+                SelectionMode = SelectionMode.Single
+            };
+            storiesCollectionView.SelectionChanged += HandleStoriesCollectionSelectionChanged;
+            storiesCollectionView.SetBinding(CollectionView.ItemsSourceProperty, nameof(NewsViewModel.TopStoryCollection));
+
+            _storiesCollectionRefreshView = new RefreshView
+            {
+                BackgroundColor = backgroundColor,
+                RefreshColor = Color.Black,
+                Content = storiesCollectionView
+            };
+            _storiesCollectionRefreshView.SetBinding(RefreshView.IsRefreshingProperty, nameof(NewsViewModel.IsListRefreshing));
+            _storiesCollectionRefreshView.SetBinding(RefreshView.CommandProperty, nameof(NewsViewModel.RefreshCommand));
+
+            Content = _storiesCollectionRefreshView;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (_storiesListView.ItemsSource is ICollection collection && collection.Count <= 0)
+            if (_storiesCollectionRefreshView.Content is CollectionView collectionView
+                && collectionView.ItemsSource is ICollection<StoryModel> storiesCollection
+                    && !storiesCollection.Any())
             {
-                _storiesListView.BeginRefresh();
+                _storiesCollectionRefreshView.IsRefreshing = true;
             }
         }
 
-        void HandleItemTapped(object sender, ItemTappedEventArgs e)
+        async void HandleStoriesCollectionSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (sender is ListView listView && e?.Item is StoryModel storyTapped)
+            var collectionView = (CollectionView)sender;
+
+            if (e?.CurrentSelection.FirstOrDefault() is StoryModel storyTapped)
             {
-                Device.BeginInvokeOnMainThread(async () =>
+                await Device.InvokeOnMainThreadAsync(() =>
                 {
-                    listView.SelectedItem = null;
+                    collectionView.SelectedItem = null;
 
                     var browserOptions = new BrowserLaunchOptions
                     {
@@ -53,7 +67,7 @@ namespace HackerNews
                         PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
                     };
 
-                    await Browser.OpenAsync(storyTapped.Url, browserOptions);
+                    return Browser.OpenAsync(storyTapped.Url, browserOptions);
                 });
             }
         }
