@@ -23,6 +23,7 @@ namespace HackerNews
 
             var storyDetailLabel = new Label
             {
+                TextColor = Color.DarkGray,
                 FontSize = 12,
                 Text = $"{story.TitleSentimentEmoji}{story.Score} Points by {story.Author}, {GetAgeOfStory(story.CreatedAt_DateTimeOffset)} ago"
             };
