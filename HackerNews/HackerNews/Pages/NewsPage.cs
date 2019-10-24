@@ -53,7 +53,10 @@ namespace HackerNews
                         PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
                     };
 
-                    await Browser.OpenAsync(storyTapped.Url, browserOptions);
+                    if(!string.IsNullOrEmpty(storyTapped.Url))
+                        await Browser.OpenAsync(storyTapped.Url, browserOptions);
+                    else
+                        await DisplayAlert("Failed to open Browser", "This story has no url", "OK");
                 });
             }
         }
