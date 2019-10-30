@@ -7,13 +7,11 @@ namespace HackerNews
 {
     public class NewsPage : BaseContentPage<NewsViewModel>
     {
-        readonly ListView _storiesListView;
-
         public NewsPage() : base("Top Stories")
         {
             ViewModel.PullToRefreshFailed += HandlePullToRefreshFailed;
 
-            _storiesListView = new ListView(ListViewCachingStrategy.RecycleElement)
+            var storiesListView = new ListView(ListViewCachingStrategy.RecycleElement)
             {
                 RefreshControlColor = Color.Black,
                 ItemTemplate = new DataTemplate(typeof(StoryTextCell)),
@@ -21,44 +19,48 @@ namespace HackerNews
                 BackgroundColor = Color.FromHex("F6F6EF"),
                 SeparatorVisibility = SeparatorVisibility.None
             };
-            _storiesListView.ItemTapped += HandleItemTapped;
-            _storiesListView.SetBinding(ListView.ItemsSourceProperty, nameof(ViewModel.TopStoryCollection));
-            _storiesListView.SetBinding(ListView.IsRefreshingProperty, nameof(ViewModel.IsListRefreshing));
-            _storiesListView.SetBinding(ListView.RefreshCommandProperty, nameof(ViewModel.RefreshCommand));
+            storiesListView.ItemTapped += HandleItemTapped;
+            storiesListView.SetBinding(ListView.ItemsSourceProperty, nameof(NewsViewModel.TopStoryCollection));
+            storiesListView.SetBinding(ListView.IsRefreshingProperty, nameof(NewsViewModel.IsListRefreshing));
+            storiesListView.SetBinding(ListView.RefreshCommandProperty, nameof(NewsViewModel.RefreshCommand));
 
-            Content = _storiesListView;
+            Content = storiesListView;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (_storiesListView.ItemsSource is ICollection collection && collection.Count <= 0)
+            if (Content is ListView listView && IsNullOrEmpty(listView.ItemsSource))
             {
-                _storiesListView.BeginRefresh();
+                listView.BeginRefresh();
             }
+
+            static bool IsNullOrEmpty(in IEnumerable enumerable) => !enumerable?.GetEnumerator().MoveNext() ?? true;
         }
 
-        void HandleItemTapped(object sender, ItemTappedEventArgs e)
+        async void HandleItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (sender is ListView listView && e?.Item is StoryModel storyTapped)
+            await Device.InvokeOnMainThreadAsync(async () =>
             {
-                Device.BeginInvokeOnMainThread(async () =>
+                var listView = (ListView)sender;
+                listView.SelectedItem = null;
+
+                switch (e?.Item)
                 {
-                    listView.SelectedItem = null;
+                    case StoryModel storyWithValidUrl when !string.IsNullOrEmpty(storyWithValidUrl.Url):
+                        var browserOptions = new BrowserLaunchOptions
+                        {
+                            PreferredControlColor = ColorConstants.BrowserNavigationBarTextColor,
+                            PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
+                        };
 
-                    var browserOptions = new BrowserLaunchOptions
-                    {
-                        PreferredControlColor = ColorConstants.BrowserNavigationBarTextColor,
-                        PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
-                    };
+                        return Browser.OpenAsync(storyWithValidUrl.Url, browserOptions);
 
-                    if(!string.IsNullOrEmpty(storyTapped.Url))
-                        await Browser.OpenAsync(storyTapped.Url, browserOptions);
-                    else
-                        await DisplayAlert("Failed to open Browser", "This story has no url", "OK");
-                });
-            }
+                    default:
+                        return DisplayAlert("Invalid Article", "ASK HN articles have no url", "OK");
+                }
+            });
         }
 
         void HandlePullToRefreshFailed(object sender, string message) =>

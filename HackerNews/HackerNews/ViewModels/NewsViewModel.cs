@@ -48,19 +48,21 @@ namespace HackerNews
 
             try
             {
-                await foreach (var story in GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false))
+                await foreach (var story in GetTopStories(StoriesConstants.NumberOfStories))
                 {
                     try
                     {
-                        story.TitleSentimentScore = await TextAnalysisService.GetSentiment(story.Title).ConfigureAwait(false);
+                        story.TitleSentimentScore = await TextAnalysisService.GetSentiment(story.Title);
                     }
-                    catch(Exception e)
+                    catch
                     {
-                        Debug.WriteLine($"Sentiment Analysis Failed. \n{e}");
+                        //Todo Add TextAnalysis API Key in TextAnalysisConstants.cs
                     }
-
-                    if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title)))
-                        InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story);
+                    finally
+                    {
+                        if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title)))
+                            InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story);
+                    }
                 }
             }
             catch (Exception e)
