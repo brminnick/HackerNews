@@ -50,7 +50,7 @@ namespace HackerNews
 
             var resultsDictionary = new Dictionary<string, double?>();
 
-            foreach (var result in sentimentResults?.Documents?.Where(x => x != null))
+            foreach (var result in sentimentResults?.Documents?.Where(x => x != null) ?? Enumerable.Empty<SentimentBatchResultItem>())
             {
                 var doesStoryExist = resultsDictionary.ContainsKey(textIdDictionary[result.Id]);
 
