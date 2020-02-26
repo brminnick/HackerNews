@@ -93,7 +93,6 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
-        <Folder Include="CustomRenderers\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -105,17 +104,16 @@
     <ItemGroup>
         <Compile Include="Main.cs" />
         <Compile Include="AppDelegate.cs" />
-        <Compile Include="CustomRenderers\LargeTitleNavigationRenderer.cs" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-        <PackageReference Include="Xamarin.Forms" Version="4.4.0.991440" />
-        <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="4.0.0" />
-        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="4.1.0-pre2" />
+        <PackageReference Include="Xamarin.Forms" Version="4.5.0.282-pre4" />
+        <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="4.1.0-preview.2" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="4.1.0" />
         <PackageReference Include="Polly" Version="7.2.0" />
         <PackageReference Include="Refit" Version="5.0.23" />
         <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.21.9" />
-        <PackageReference Include="Xamarin.Essentials" Version="1.4.0-pre" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.5.0-pre1" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\HackerNews\HackerNews.csproj">
