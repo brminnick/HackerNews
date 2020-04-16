@@ -7,6 +7,8 @@ namespace HackerNews
     {
         public App()
         {
+            Xamarin.Forms.Device.SetFlags(new[] { "Markup_Experimental" });
+
             var navigationPage = new Xamarin.Forms.NavigationPage(new NewsPage())
             {
                 BarBackgroundColor = ColorConstants.NavigationBarBackgroundColor,

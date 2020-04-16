@@ -11,7 +11,7 @@ namespace HackerNews
 {
     public static class HackerNewsAPIService
     {
-        readonly static Lazy<IHackerNewsAPI> _hackerNewsApiClientHolder = new Lazy<IHackerNewsAPI>(() => RestService.For<IHackerNewsAPI>("https://hacker-news.firebaseio.com/v0"));
+        readonly static Lazy<IHackerNewsAPI> _hackerNewsApiClientHolder = new Lazy<IHackerNewsAPI>(RestService.For<IHackerNewsAPI>("https://hacker-news.firebaseio.com/v0"));
 
         static IHackerNewsAPI HackerNewsApiClient => _hackerNewsApiClientHolder.Value;
 
@@ -22,7 +22,7 @@ namespace HackerNews
         {
             return Policy.Handle<Exception>().WaitAndRetryAsync(numRetries, pollyRetryAttempt).ExecuteAsync(action);
 
-            TimeSpan pollyRetryAttempt(int attemptNumber) => TimeSpan.FromSeconds(Math.Pow(2, attemptNumber));
+            static TimeSpan pollyRetryAttempt(int attemptNumber) => TimeSpan.FromSeconds(Math.Pow(2, attemptNumber));
         }
     }
 }

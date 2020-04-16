@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Linq;
 using HackerNews.Shared;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Markup;
 
 namespace HackerNews
 {
@@ -11,56 +14,61 @@ namespace HackerNews
         {
             ViewModel.PullToRefreshFailed += HandlePullToRefreshFailed;
 
-            var storiesListView = new ListView(ListViewCachingStrategy.RecycleElement)
+            Content = new RefreshView
             {
-                RefreshControlColor = Color.Black,
-                ItemTemplate = new DataTemplate(typeof(StoryTextCell)),
-                IsPullToRefreshEnabled = true,
-                BackgroundColor = Color.FromHex("F6F6EF"),
-                SeparatorVisibility = SeparatorVisibility.None
-            };
-            storiesListView.ItemTapped += HandleItemTapped;
-            storiesListView.SetBinding(ListView.ItemsSourceProperty, nameof(NewsViewModel.TopStoryCollection));
-            storiesListView.SetBinding(ListView.IsRefreshingProperty, nameof(NewsViewModel.IsListRefreshing));
-            storiesListView.SetBinding(ListView.RefreshCommandProperty, nameof(NewsViewModel.RefreshCommand));
+                RefreshColor = Color.Black,
 
-            Content = storiesListView;
+                Content = new CollectionView
+                {
+                    BackgroundColor = Color.FromHex("F6F6EF"),
+                    SelectionMode = SelectionMode.Single,
+                    ItemTemplate = new StoryDataTemplate(),
+
+                }.Assign(out CollectionView collectionView)
+                 .Bind(CollectionView.ItemsSourceProperty, nameof(NewsViewModel.TopStoryCollection))
+
+            }.Bind(RefreshView.IsRefreshingProperty, nameof(NewsViewModel.IsListRefreshing))
+             .Bind(RefreshView.CommandProperty, nameof(NewsViewModel.RefreshCommand));
+
+            collectionView.SelectionChanged += HandleSelectionChanged;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (Content is ListView listView && IsNullOrEmpty(listView.ItemsSource))
+            if (Content is RefreshView refreshView
+                && refreshView.Content is CollectionView collectionView
+                && IsNullOrEmpty(collectionView.ItemsSource))
             {
-                listView.BeginRefresh();
+                refreshView.IsRefreshing = true;
             }
 
-            static bool IsNullOrEmpty(in IEnumerable enumerable) => !enumerable?.GetEnumerator().MoveNext() ?? true;
+            static bool IsNullOrEmpty(in IEnumerable? enumerable) => !enumerable?.GetEnumerator().MoveNext() ?? true;
         }
 
-        async void HandleItemTapped(object sender, ItemTappedEventArgs e)
+        async void HandleSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            await Device.InvokeOnMainThreadAsync(() =>
+            var collectionView = (CollectionView)sender;
+            collectionView.SelectedItem = null;
+
+            if (e.CurrentSelection.FirstOrDefault() is StoryModel storyModel)
             {
-                var listView = (ListView)sender;
-                listView.SelectedItem = null;
-
-                switch (e?.Item)
+                if (!string.IsNullOrEmpty(storyModel.Url))
                 {
-                    case StoryModel storyWithValidUrl when !string.IsNullOrEmpty(storyWithValidUrl.Url):
-                        var browserOptions = new BrowserLaunchOptions
-                        {
-                            PreferredControlColor = ColorConstants.BrowserNavigationBarTextColor,
-                            PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
-                        };
+                    var browserOptions = new BrowserLaunchOptions
+                    {
+                        PreferredControlColor = ColorConstants.BrowserNavigationBarTextColor,
+                        PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
+                    };
 
-                        return Browser.OpenAsync(storyWithValidUrl.Url, browserOptions);
-
-                    default:
-                        return DisplayAlert("Invalid Article", "ASK HN articles have no url", "OK");
+                    await Browser.OpenAsync(storyModel.Url, browserOptions);
                 }
-            });
+                else
+                {
+                    await DisplayAlert("Invalid Article", "ASK HN articles have no url", "OK");
+                }
+            }
         }
 
         void HandlePullToRefreshFailed(object sender, string message) =>

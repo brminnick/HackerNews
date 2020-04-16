@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using AsyncAwaitBestPractices;
@@ -16,6 +18,7 @@ namespace HackerNews
     public class NewsViewModel : BaseViewModel
     {
         readonly WeakEventManager<string> _pullToRefreshEventManager = new WeakEventManager<string>();
+        readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
 
         bool _isListRefreshing;
         ICommand? _refreshCommand;
@@ -85,11 +88,12 @@ namespace HackerNews
                 var completedGetStoryTask = await Task.WhenAny(getTopStoryTaskList).ConfigureAwait(false);
                 getTopStoryTaskList.Remove(completedGetStoryTask);
 
-                yield return await completedGetStoryTask.ConfigureAwait(false);
+                var story = await completedGetStoryTask.ConfigureAwait(false);
+                yield return story;
             }
         }
 
-        void InsertIntoSortedCollection<T>(in ObservableCollection<T> collection, in Comparison<T> comparison, in T modelToInsert)
+        void InsertIntoSortedCollection<T>(ObservableCollection<T> collection, Comparison<T> comparison, T modelToInsert)
         {
             if (collection.Count is 0)
             {
@@ -108,6 +112,8 @@ namespace HackerNews
 
                     index++;
                 }
+
+                collection.Insert(index, modelToInsert);
             }
         }
 
