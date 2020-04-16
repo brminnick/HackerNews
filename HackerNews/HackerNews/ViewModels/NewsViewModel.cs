@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 using HackerNews.Shared;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace HackerNews
@@ -48,11 +48,11 @@ namespace HackerNews
 
             try
             {
-                await foreach (var story in GetTopStories(StoriesConstants.NumberOfStories))
+                await foreach (var story in GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false))
                 {
                     try
                     {
-                        story.TitleSentimentScore = await TextAnalysisService.GetSentiment(story.Title);
+                        story.TitleSentiment = await TextAnalysisService.GetSentiment(story.Title).ConfigureAwait(false);
                     }
                     catch
                     {
@@ -114,10 +114,7 @@ namespace HackerNews
         //Ensure Observable Collection is thread-safe https://codetraveler.io/2019/09/11/using-observablecollection-in-a-multi-threaded-xamarin-forms-application/
         void ObservableCollectionCallback(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
         {
-            lock (collection)
-            {
-                accessMethod?.Invoke();
-            }
+            MainThread.BeginInvokeOnMainThread(accessMethod);
         }
 
         void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager.HandleEvent(this, message, nameof(PullToRefreshFailed));

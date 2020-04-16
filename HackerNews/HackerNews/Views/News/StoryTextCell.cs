@@ -21,7 +21,7 @@ namespace HackerNews
             var story = (StoryModel)BindingContext;
 
             Text = story.Title;
-            Detail = $"{story.TitleSentimentEmoji}{story.Score} Points by {story.Author}, {GetAgeOfStory(story.CreatedAt_DateTimeOffset)} ago";
+            Detail = $"{story.TitleSentimentEmoji} {story.Score} Points by {story.Author}, {GetAgeOfStory(story.CreatedAt_DateTimeOffset)} ago";
         }
 
         string GetAgeOfStory(DateTimeOffset storyCreatedAt)

@@ -41,7 +41,7 @@ namespace HackerNews
 
         async void HandleItemTapped(object sender, ItemTappedEventArgs e)
         {
-            await Device.InvokeOnMainThreadAsync(async () =>
+            await Device.InvokeOnMainThreadAsync(() =>
             {
                 var listView = (ListView)sender;
                 listView.SelectedItem = null;
