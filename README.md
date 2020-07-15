@@ -1,5 +1,7 @@
 # HackerNews
 
+<a href="https://www.buymeacoffee.com/bminnick" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+
 A Xamarin.Forms app for displaying the top posts on Hacker News.
 
 This app demonstrates how to use `IAsyncEnumerable` + C# 8.0 to improve performance. Thanks to `IAsyncEnumerable`, the items are added to the list as soon as they're available making the app feel faster and more responsive.
