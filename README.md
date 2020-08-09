@@ -6,7 +6,7 @@ A Xamarin.Forms app for displaying the top posts on Hacker News.
 
 This app demonstrates how to use `IAsyncEnumerable` + C# 8.0 to improve performance. Thanks to `IAsyncEnumerable`, the items are added to the list as soon as they're available making the app feel faster and more responsive.
 
-This app also uses the [Text Analytics API](https://azure.microsoft.com/services/cognitive-services/text-analytics?WT.mc_id=HackerNews-github-bramin) from [Microsoft Cognitive Services](https://azure.microsoft.com/services/cognitive-services?WT.mc_id=HackerNews-github-bramin) to analyze the sentiment of each headline. 
+This app also uses the [Text Analytics API](https://azure.microsoft.com/services/cognitive-services/text-analytics?WT.mc_id=hackernews-github-bramin) from [Microsoft Cognitive Services](https://azure.microsoft.com/services/cognitive-services?WT.mc_id=hackernews-github-bramin) to analyze the sentiment of each headline. 
 - 😃 Headline is Happy 
 - ☹️ Headline is Sad 
 - 😐 Headline is Neither Happy or Sad
