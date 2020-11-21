@@ -8,7 +8,7 @@
         <OutputType>Library</OutputType>
         <RootNamespace>HackerNews.Droid</RootNamespace>
         <AssemblyName>HackerNews.Droid</AssemblyName>
-        <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
+        <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
         <AndroidApplication>True</AndroidApplication>
         <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
         <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -85,15 +85,14 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-        <PackageReference Include="Xamarin.Forms" Version="4.7.0.848-pre3" />
-        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="4.1.1" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.1709-pre4" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.0.2" />
         <PackageReference Include="Polly" Version="7.2.1" />
-        <PackageReference Include="Refit" Version="5.1.67" />
+        <PackageReference Include="Refit" Version="5.2.1" />
         <PackageReference Include="Plugin.CurrentActivity" Version="2.1.0.4" />
-        <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
-        <PackageReference Include="Azure.AI.TextAnalytics">
-          <Version>1.0.0-preview.5</Version>
-        </PackageReference>
+        <PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre4" />
+        <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0-beta.3" />
+        <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.0.0-pre5" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\HackerNews\HackerNews.csproj">

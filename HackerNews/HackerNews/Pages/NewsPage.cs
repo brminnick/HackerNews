@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 using HackerNews.Shared;
+using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Markup;
 
 namespace HackerNews
 {
