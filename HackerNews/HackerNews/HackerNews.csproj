@@ -10,7 +10,7 @@
         <PackageReference Include="Xamarin.Forms" Version="5.0.0.1709-pre4" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.0.2" />
         <PackageReference Include="Polly" Version="7.2.1" />
-        <PackageReference Include="Refit" Version="5.2.1" />
+        <PackageReference Include="Refit" Version="5.2.4" />
         <PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre5" />
         <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0-beta.3" />
         <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.0.0-pre5" />
