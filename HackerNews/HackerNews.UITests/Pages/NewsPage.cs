@@ -17,11 +17,11 @@ namespace HackerNews.UITests
         {
         }
 
-        public bool IsRefreshActivityIndicatorDisplayed => App switch
+        public bool IsRefreshViewRefreshIndicatorDisplayed => App switch
         {
-            AndroidApp androidApp => (bool)(androidApp.Query(x => x.Class("ListViewRenderer_SwipeRefreshLayoutWithFixedNestedScrolling")?.Invoke("isRefreshing"))?.FirstOrDefault() ?? false),
-            iOSApp iosApp => iosApp.Query(x => x.Class("UIRefreshControl")).Any(),
-            _ => throw new NotSupportedException(),
+            AndroidApp androidApp => (bool)androidApp.Query(x => x.Class("RefreshViewRenderer").Invoke("isRefreshing")).First(),
+            IApp iOSApp => iOSApp.Query(x => x.Class("UIRefreshControl")).Any(),
+            _ => throw new NotSupportedException("Xamarin.UITest only supports Android and iOS"),
         };
 
         public bool IsBrowserOpen => App switch
@@ -33,7 +33,7 @@ namespace HackerNews.UITests
         public void WaitForNoActivityIndicator(int timeoutInSeconds = 60)
         {
             int counter = 0;
-            while (IsRefreshActivityIndicatorDisplayed && counter < timeoutInSeconds)
+            while (IsRefreshViewRefreshIndicatorDisplayed && counter < timeoutInSeconds)
             {
                 Thread.Sleep(1000);
                 counter++;
@@ -50,7 +50,7 @@ namespace HackerNews.UITests
             WaitForNoActivityIndicator();
         }
 
-        public List<StoryModel> GetStoryList()
+        public IReadOnlyList<StoryModel> GetStoryList()
         {
             var serializedStoryList = App switch
             {
@@ -59,7 +59,7 @@ namespace HackerNews.UITests
                 _ => throw new NotSupportedException("Platform Not Supported"),
             };
 
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<List<StoryModel>>(serializedStoryList);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<IReadOnlyList<StoryModel>>(serializedStoryList);
         }
     }
 }
