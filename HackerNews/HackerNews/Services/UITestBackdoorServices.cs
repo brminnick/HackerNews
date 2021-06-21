@@ -1,16 +1,13 @@
-﻿using Xamarin.Forms;
-
-using Newtonsoft.Json;
+﻿#if DEBUG
+using System.Collections.Generic;
+using HackerNews.Shared;
+using Xamarin.Forms;
 
 namespace HackerNews
 {
     public static class UITestBackdoorServices
     {
-        public static string GetSerializedStoryList()
-        {
-            var storyList = GetViewModel().TopStoryCollection;
-            return JsonConvert.SerializeObject(storyList);
-        }
+        public static IReadOnlyList<StoryModel> GetStoryList() => GetViewModel().TopStoryCollection;
 
         static NewsPage GetNewsPage()
         {
@@ -21,3 +18,4 @@ namespace HackerNews
         static NewsViewModel GetViewModel() => (NewsViewModel)GetNewsPage().BindingContext;
     }
 }
+#endif

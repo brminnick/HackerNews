@@ -26,7 +26,7 @@ namespace HackerNews.UITests
             const int requestedNumberOfStories = StoriesConstants.NumberOfStories;
 
             //Act
-            actualNumberOfStories = NewsPage.GetStoryList().Count;
+            actualNumberOfStories = NewsPage.StoryList.Count;
 
             //Assert
             Assert.GreaterOrEqual(requestedNumberOfStories, actualNumberOfStories);
@@ -37,7 +37,7 @@ namespace HackerNews.UITests
         public void ReadStory()
         {
             //Arrange
-            var topStory = NewsPage.GetStoryList().First();
+            var topStory = NewsPage.StoryList.First();
 
             //Act
             App.Tap(topStory.Title);

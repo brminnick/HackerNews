@@ -17,5 +17,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Constants\PageTitleConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\StoryModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\EmojiConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\BackdoorConstants.cs" />
   </ItemGroup>
 </Project>

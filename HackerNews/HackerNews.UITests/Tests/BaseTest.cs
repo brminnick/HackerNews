@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 using Xamarin.UITest;
@@ -10,20 +11,22 @@ namespace HackerNews.UITests
     {
         readonly Platform _platform;
 
+        IApp? _app;
+        NewsPage? _newsPage;
+
         protected BaseTest(Platform platform) => _platform = platform;
 
-        protected IApp App { get; private set; }
-        protected NewsPage NewsPage { get; private set; }
+        protected IApp App => _app ?? throw new NullReferenceException();
+        protected NewsPage NewsPage => _newsPage ?? throw new NullReferenceException();
 
         [SetUp]
         public virtual void BeforeEachTest()
         {
-            App = AppInitializer.StartApp(_platform);
-            App.Screenshot("App Initialized");
+            _app = AppInitializer.StartApp(_platform);
+            _app.Screenshot("App Initialized");
 
-            NewsPage = new NewsPage(App);
-
-            NewsPage.WaitForPageToLoad();
+            _newsPage = new NewsPage(App);
+            _newsPage.WaitForPageToLoad();
         }
     }
 }

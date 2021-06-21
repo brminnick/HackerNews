@@ -9,8 +9,6 @@
         <RootNamespace>HackerNews.iOS</RootNamespace>
         <AssemblyName>HackerNews.iOS</AssemblyName>
         <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-        <Nullable>enable</Nullable>
-        <LangVersion>8.0</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
         <DebugSymbols>true</DebugSymbols>
@@ -104,16 +102,17 @@
     <ItemGroup>
         <Compile Include="Main.cs" />
         <Compile Include="AppDelegate.cs" />
+        <Compile Include="AppDelegate.BackdoorMethods.cs" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-        <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
-        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.0.2" />
-        <PackageReference Include="Polly" Version="7.2.1" />
-        <PackageReference Include="Refit" Version="5.2.4" />
-        <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.22.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.0-pre1" />
+        <PackageReference Include="Polly" Version="7.2.2" />
+        <PackageReference Include="Refit" Version="6.0.38" />
+        <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.22.2" />
         <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
-        <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0-beta.3" />
+        <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0-beta.7" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\HackerNews\HackerNews.csproj">

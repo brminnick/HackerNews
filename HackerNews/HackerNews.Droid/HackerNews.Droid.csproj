@@ -17,8 +17,6 @@
         <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
         <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
         <AndroidLinkSkip>Xamarin.Android.Net.AndroidClientHandler</AndroidLinkSkip>
-        <Nullable>enable</Nullable>
-        <LangVersion>8.0</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -68,6 +66,7 @@
         <Compile Include="MainActivity.cs" />
         <Compile Include="Resources\Resource.designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="MainActivity.BackdoorMethods.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Resources\AboutResources.txt" />
@@ -84,13 +83,13 @@
         <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-        <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
-        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.0.2" />
-        <PackageReference Include="Polly" Version="7.2.1" />
-        <PackageReference Include="Refit" Version="5.2.4" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.0-pre1" />
+        <PackageReference Include="Polly" Version="7.2.2" />
+        <PackageReference Include="Refit" Version="6.0.38" />
         <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
-        <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0-beta.3" />
+        <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0-beta.7" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\HackerNews\HackerNews.csproj">

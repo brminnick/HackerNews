@@ -2,18 +2,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
-        <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-        <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
-        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.0.2" />
-        <PackageReference Include="Polly" Version="7.2.1" />
-        <PackageReference Include="Refit" Version="5.2.4" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.0-pre1" />
+        <PackageReference Include="Polly" Version="7.2.2" />
+        <PackageReference Include="Refit" Version="6.0.38" />
         <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
-        <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0-beta.3" />
-        <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.0.2" />
+        <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0-beta.7" />
+        <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.2.0-pre2" />
+        <PackageReference Include="Refit.Newtonsoft.Json" Version="6.0.38" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Pages\Base\" />
