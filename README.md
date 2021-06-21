@@ -1,3 +1,5 @@
+[![Mobile](https://github.com/brminnick/HackerNews/actions/workflows/mobile.yml/badge.svg)](https://github.com/brminnick/HackerNews/actions/workflows/mobile.yml)
+
 # HackerNews
 
 A Xamarin.Forms app for displaying the top posts on Hacker News.
