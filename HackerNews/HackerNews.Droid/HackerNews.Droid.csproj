@@ -89,7 +89,7 @@
         <PackageReference Include="Polly" Version="7.2.2" />
         <PackageReference Include="Refit" Version="6.0.38" />
         <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
-        <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0-beta.7" />
+        <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\HackerNews\HackerNews.csproj">
