@@ -1,7 +1,6 @@
 ﻿#if DEBUG
 using System.Collections.Generic;
-using HackerNews.Shared;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
 
 namespace HackerNews
 {

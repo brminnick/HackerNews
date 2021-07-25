@@ -43,7 +43,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Maui.Markup\src\CommunityToolkit.Maui.Markup\CommunityToolkit.Maui.Markup.csproj" />
+	  <ProjectReference Include="..\..\..\CommunityToolkit.Maui.Markup\src\CommunityToolkit.Maui.Markup\CommunityToolkit.Maui.Markup.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

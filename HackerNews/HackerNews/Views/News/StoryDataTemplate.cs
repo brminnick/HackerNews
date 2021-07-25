@@ -1,6 +1,7 @@
 ﻿using Microsoft.Maui.Controls;
 using CommunityToolkit.Maui.Markup;
 using static CommunityToolkit.Maui.Markup.GridRowsColumns;
+using Microsoft.Maui;
 
 namespace HackerNews
 {

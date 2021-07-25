@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using Refit;
-
-using HackerNews.Shared;
 
 namespace HackerNews
 {
