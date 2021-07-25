@@ -2,7 +2,7 @@
 
 namespace HackerNews
 {
-    public class App : Microsoft.Maui.Controls.Application
+    public class App : Application
     {
         public App()
         {
