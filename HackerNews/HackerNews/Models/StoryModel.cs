@@ -1,24 +1,13 @@
 ﻿using System;
 using Azure.AI.TextAnalytics;
-using Newtonsoft.Json;
 
 namespace HackerNews
 {
-    public class StoryModel
+    public record StoryModel(long Id, string Author, long Score, long Time, string Title, string Url)
     {
-        public StoryModel(long id, string author, long score, long createdAt_UnixTime, string title, string url)
-        {
-            Id = id;
-            Author = author;
-            Score = score;
-            CreatedAt_UnixTime = createdAt_UnixTime;
-            Title = title;
-            Url = url;
-        }
-
         public string Description => ToString();
 
-        public DateTimeOffset CreatedAt_DateTimeOffset => UnixTimeStampToDateTimeOffset(CreatedAt_UnixTime);
+        public DateTimeOffset CreatedAt => UnixTimeStampToDateTimeOffset(Time);
 
         public string TitleSentimentEmoji => TitleSentiment switch
         {
@@ -30,27 +19,9 @@ namespace HackerNews
             _ => throw new NotSupportedException()
         };
 
-        [JsonProperty("id")]
-        public long Id { get; }
+        public TextSentiment? TitleSentiment { get; init; }
 
-        [JsonProperty("by")]
-        public string Author { get; }
-
-        [JsonProperty("score")]
-        public long Score { get; }
-
-        [JsonProperty("time")]
-        public long CreatedAt_UnixTime { get; }
-
-        [JsonProperty("title")]
-        public string Title { get; }
-
-        [JsonProperty("url")]
-        public string Url { get; }
-
-        public TextSentiment? TitleSentiment { get; set; }
-
-        public override string ToString() => $"{TitleSentimentEmoji} {Score} Points by {Author}, {GetAgeOfStory(CreatedAt_DateTimeOffset)} ago";
+        public override string ToString() => $"{TitleSentimentEmoji} {Score} Points by {Author}, {GetAgeOfStory(CreatedAt)} ago";
 
         static string GetAgeOfStory(DateTimeOffset storyCreatedAt)
         {

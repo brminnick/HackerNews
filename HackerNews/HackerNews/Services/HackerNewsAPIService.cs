@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Polly;
+using Refit;
 
 namespace HackerNews
 {
     public static class HackerNewsAPIService
     {
-        readonly static Lazy<IHackerNewsAPI> _hackerNewsApiClientHolder = new(RefitExtensions.For<IHackerNewsAPI>("https://hacker-news.firebaseio.com/v0"));
+        readonly static Lazy<IHackerNewsAPI> _hackerNewsApiClientHolder = new(RestService.For<IHackerNewsAPI>("https://hacker-news.firebaseio.com/v0"));
 
         static IHackerNewsAPI HackerNewsApiClient => _hackerNewsApiClientHolder.Value;
 
