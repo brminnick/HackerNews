@@ -5,6 +5,7 @@
 		<TargetFrameworks>net6.0-ios;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<UseMaui>true</UseMaui>
+		<UseMauiEssentials>true</UseMauiEssentials>
 		<SingleProject>true</SingleProject>
 		<RootNamespace>HackerNews</RootNamespace>
 
@@ -34,9 +35,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.0" />
+        <PackageReference Include="Polly" Version="7.2.2" />
+        <PackageReference Include="Refit" Version="6.0.38" />
+        <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\..\..\Maui.Markup\src\CommunityToolkit.Maui.Markup\CommunityToolkit.Maui.Markup.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="Info.plist" />
+	</ItemGroup>
 	<PropertyGroup>
 		<InvariantGlobalization Condition="$(TargetFramework.Contains('-maccatalyst'))">true</InvariantGlobalization>
 		<RuntimeIdentifier Condition="$(TargetFramework.Contains('-ios'))">iossimulator-x64</RuntimeIdentifier>
