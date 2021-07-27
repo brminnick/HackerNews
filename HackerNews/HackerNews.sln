@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31521.260
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HackerNews", "HackerNews\HackerNews.csproj", "{9952B728-A778-4A67-B494-A068A5CD361B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Maui.Markup", "..\..\CommunityToolkit.Maui.Markup\src\CommunityToolkit.Maui.Markup\CommunityToolkit.Maui.Markup.csproj", "{237CF64C-638C-4011-8FD8-A0F3CB523EE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Maui.Markup", "..\Maui.Markup\src\CommunityToolkit.Maui.Markup\CommunityToolkit.Maui.Markup.csproj", "{237CF64C-638C-4011-8FD8-A0F3CB523EE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
