@@ -12,8 +12,8 @@ namespace HackerNews
 
         static IHackerNewsAPI HackerNewsApiClient => _hackerNewsApiClientHolder.Value;
 
-        public static Task<StoryModel> GetStory(string storyId) => AttemptAndRetry(() => HackerNewsApiClient.GetStory(storyId));
-        public static Task<IReadOnlyList<string>> GetTopStoryIDs() => AttemptAndRetry(() => HackerNewsApiClient.GetTopStoryIDs());
+        public static Task<StoryModel> GetStory(long storyId) => AttemptAndRetry(() => HackerNewsApiClient.GetStory(storyId));
+        public static Task<IReadOnlyList<long>> GetTopStoryIDs() => AttemptAndRetry(() => HackerNewsApiClient.GetTopStoryIDs());
 
         static Task<T> AttemptAndRetry<T>(Func<Task<T>> action, int numRetries = 3)
         {
