@@ -14,10 +14,20 @@ jobs:
 
       steps:
       - uses: actions/checkout@v1
+      
+      - name: Setup .NET v6.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: true
+
+      - name: Install .NET MAUI Workload
+        run: |
+          dotnet workload install maui
 
       - name: Restore NuGet 
         run: |
-          nuget restore ./HackerNews
+          dotnet restore
           
       - name: Build Android App
         run: |                    

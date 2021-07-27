@@ -7,13 +7,14 @@
 		<UseMaui>true</UseMaui>
 		<UseMauiEssentials>true</UseMauiEssentials>
 		<SingleProject>true</SingleProject>
+		<PublishTrimmed>false</PublishTrimmed>
 		<RootNamespace>HackerNews</RootNamespace>
 
 		<!-- Display name -->
 		<ApplicationTitle>HackerNews</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.HackerNews</ApplicationId>
+		<ApplicationId>com.Minnick.HackerNews</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationVersion>1.0</ApplicationVersion>
