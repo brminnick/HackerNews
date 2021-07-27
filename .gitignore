@@ -790,6 +790,7 @@ hs_err_pid*
 # Cake - Uncomment if you are using it
 # tools/
 
-### VisualStudio Patch ###
+### VisualStudio Code ###
+*.vscode
 
 # End of https://www.gitignore.io/api/xamarinstudio,visualstudio,visualstudiocode,xcode,android,macos,csharp,f#,fastlane,java,jetbrains,linux,monodevelop,objective-c,swift,sublimetext,unity

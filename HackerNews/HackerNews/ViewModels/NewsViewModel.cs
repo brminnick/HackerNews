@@ -8,16 +8,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
-using HackerNews.Shared;
-using Xamarin.Essentials;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
 
 namespace HackerNews
 {
     public class NewsViewModel : BaseViewModel
     {
         readonly WeakEventManager<string> _pullToRefreshEventManager = new WeakEventManager<string>();
-        readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
 
         bool _isListRefreshing;
         ICommand? _refreshCommand;
@@ -52,18 +49,21 @@ namespace HackerNews
             {
                 await foreach (var story in GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false))
                 {
+                    StoryModel? updatedStory = null;
+
                     try
                     {
-                        story.TitleSentiment = await TextAnalysisService.GetSentiment(story.Title).ConfigureAwait(false);
+                        updatedStory = story with { TitleSentiment = await TextAnalysisService.GetSentiment(story.Title).ConfigureAwait(false) };
                     }
                     catch
                     {
                         //Todo Add TextAnalysis API Key in TextAnalysisConstants.cs
+                        updatedStory = story;
                     }
                     finally
                     {
-                        if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title)))
-                            InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story);
+                        if (updatedStory is not null && !TopStoryCollection.Any(x => x.Title.Equals(updatedStory.Title)))
+                            InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), updatedStory);
                     }
                 }
             }
@@ -119,7 +119,7 @@ namespace HackerNews
         //Ensure Observable Collection is thread-safe https://codetraveler.io/2019/09/11/using-observablecollection-in-a-multi-threaded-xamarin-forms-application/
         void ObservableCollectionCallback(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
         {
-            MainThread.BeginInvokeOnMainThread(accessMethod);
+            Device.BeginInvokeOnMainThread(accessMethod);
         }
 
         void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager.RaiseEvent(this, message, nameof(PullToRefreshFailed));

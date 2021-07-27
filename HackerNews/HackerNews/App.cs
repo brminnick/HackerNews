@@ -1,19 +1,16 @@
-﻿using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+﻿using Microsoft.Maui.Controls;
 
 namespace HackerNews
 {
-    public class App : Xamarin.Forms.Application
+    public class App : Application
     {
         public App()
         {
-            var navigationPage = new Xamarin.Forms.NavigationPage(new NewsPage())
+            var navigationPage = new NavigationPage(new NewsPage())
             {
                 BarBackgroundColor = ColorConstants.NavigationBarBackgroundColor,
                 BarTextColor = ColorConstants.NavigationBarTextColor
             };
-
-            navigationPage.On<iOS>().SetPrefersLargeTitles(true);
 
             MainPage = navigationPage;
         }

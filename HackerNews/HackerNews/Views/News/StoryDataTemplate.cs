@@ -1,7 +1,7 @@
-﻿using HackerNews.Shared;
-using Xamarin.Forms;
-using Xamarin.CommunityToolkit.Markup;
-using static Xamarin.CommunityToolkit.Markup.GridRowsColumns;
+﻿using Microsoft.Maui.Controls;
+using CommunityToolkit.Maui.Markup;
+using static CommunityToolkit.Maui.Markup.GridRowsColumns;
+using Microsoft.Maui;
 
 namespace HackerNews
 {
@@ -12,16 +12,14 @@ namespace HackerNews
 
         }
 
-        public static GridLength AbsoluteGridLength(double value) => new GridLength(value, GridUnitType.Absolute);
-
         static Grid CreateGrid() => new Grid
         {
             RowSpacing = 1,
 
             RowDefinitions = Rows.Define(
-                (Row.Title, AbsoluteGridLength(20)),
-                (Row.Description, AbsoluteGridLength(20)),
-                (Row.BottomPadding, AbsoluteGridLength(1))),
+                (Row.Title, 20),
+                (Row.Description, 20),
+                (Row.BottomPadding, 1)),
 
             Children =
             {

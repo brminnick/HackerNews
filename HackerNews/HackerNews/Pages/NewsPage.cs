@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Linq;
-using HackerNews.Shared;
-using Xamarin.CommunityToolkit.Markup;
-using Xamarin.Essentials;
-using Xamarin.Forms;
+using CommunityToolkit.Maui.Markup;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
+using System;
+using Microsoft.Maui.Essentials;
 
 namespace HackerNews
 {
@@ -15,7 +16,7 @@ namespace HackerNews
 
             Content = new RefreshView
             {
-                RefreshColor = Color.Black,
+                RefreshColor = Colors.Black,
 
                 Content = new CollectionView
                 {
@@ -46,9 +47,9 @@ namespace HackerNews
             static bool IsNullOrEmpty(in IEnumerable? enumerable) => !enumerable?.GetEnumerator().MoveNext() ?? true;
         }
 
-        async void HandleSelectionChanged(object sender, SelectionChangedEventArgs e)
+        async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
-            var collectionView = (CollectionView)sender;
+            var collectionView = (CollectionView)(sender ?? throw new NullReferenceException());
             collectionView.SelectedItem = null;
 
             if (e.CurrentSelection.FirstOrDefault() is StoryModel storyModel)
@@ -70,7 +71,7 @@ namespace HackerNews
             }
         }
 
-        void HandlePullToRefreshFailed(object sender, string message) =>
+        void HandlePullToRefreshFailed(object? sender, string message) =>
             Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Refresh Failed", message, "OK"));
     }
 }
