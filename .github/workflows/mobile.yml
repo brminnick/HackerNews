@@ -27,8 +27,8 @@ jobs:
 
       - name: Restore NuGet 
         run: |
-          dotnet restore ./HackerNews/
+          dotnet restore ./HackerNews
           
       - name: Build Android App
         run: |                    
-          dotnet build ./HackerNews/HackerNews/
+          dotnet build ./HackerNews/HackerNews
