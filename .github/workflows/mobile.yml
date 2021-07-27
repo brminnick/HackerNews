@@ -14,6 +14,11 @@ jobs:
 
       steps:
       - uses: actions/checkout@v1
+
+      - name: Clone CommunityToolkit.Maui.Markup Submodule
+        run: |
+          git submodule init
+          git submodule update
       
       - name: Setup .NET v6.0
         uses: actions/setup-dotnet@v1
@@ -31,4 +36,4 @@ jobs:
           
       - name: Build Android App
         run: |                    
-          dotnet build ./HackerNews/HackerNews
+          dotnet build ./HackerNews/HackerNews -f net6.0-android
