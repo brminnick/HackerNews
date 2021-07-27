@@ -21,6 +21,8 @@ namespace HackerNews
 
         public NewsViewModel()
         {
+            RefreshCommand = new AsyncCommand(ExecuteRefreshCommand);
+
             //Ensure Observable Collection is thread-safe https://codetraveler.io/2019/09/11/using-observablecollection-in-a-multi-threaded-xamarin-forms-application/
             BindingBase.EnableCollectionSynchronization(TopStoryCollection, null, ObservableCollectionCallback);
         }
@@ -33,7 +35,7 @@ namespace HackerNews
 
         public ObservableCollection<StoryModel> TopStoryCollection { get; } = new ObservableCollection<StoryModel>();
 
-        public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(ExecuteRefreshCommand);
+        public ICommand RefreshCommand { get; }
 
         public bool IsListRefreshing
         {
@@ -69,7 +71,7 @@ namespace HackerNews
             }
             catch (Exception e)
             {
-                OnPullToRefreshFailed(e.Message);
+                OnPullToRefreshFailed(e.ToString());
             }
             finally
             {

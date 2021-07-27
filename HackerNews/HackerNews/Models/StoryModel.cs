@@ -3,7 +3,7 @@ using Azure.AI.TextAnalytics;
 
 namespace HackerNews
 {
-    public record StoryModel(long Id, string Author, long Score, long Time, string Title, string Url)
+    public record StoryModel(long Id, string By, long Score, long Time, string Title, string Url)
     {
         public string Description => ToString();
 
@@ -19,9 +19,9 @@ namespace HackerNews
             _ => throw new NotSupportedException()
         };
 
-        public TextSentiment? TitleSentiment { get; init; }
+        public override string ToString() => $"{TitleSentimentEmoji} {Score} Points by {By}, {GetAgeOfStory(CreatedAt)} ago";
 
-        public override string ToString() => $"{TitleSentimentEmoji} {Score} Points by {Author}, {GetAgeOfStory(CreatedAt)} ago";
+        public TextSentiment? TitleSentiment { get; init; }
 
         static string GetAgeOfStory(DateTimeOffset storyCreatedAt)
         {
