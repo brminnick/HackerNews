@@ -31,18 +31,4 @@ jobs:
           
       - name: Build Android App
         run: |                    
-          mono /Applications/Visual\ studio.app/Contents/Resources/lib/monodevelop/bin/MSBuild/Current/bin/MSBuild.dll ./HackerNews/HackerNews.Droid/HackerNews.Droid.csproj /verbosity:normal /p:Configuration=Release     
-          
-    Build_UITests:
-      runs-on: macos-latest
-
-      steps:
-      - uses: actions/checkout@v1
-
-      - name: Restore NuGet 
-        run: |
-          nuget restore ./HackerNews
-          
-      - name: Build UITest Project
-        run: |                    
-          mono /Applications/Visual\ studio.app/Contents/Resources/lib/monodevelop/bin/MSBuild/Current/bin/MSBuild.dll ./HackerNews/HackerNews.UITests/HackerNews.UITests.csproj   
+          dotnet build ./HackerNews/HackerNews/
