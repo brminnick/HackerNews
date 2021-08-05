@@ -2,14 +2,14 @@
 
 namespace HackerNews
 {
-    public abstract class BaseContentPage<T> : ContentPage where T : BaseViewModel, new()
+    public abstract class BaseContentPage<T> : ContentPage where T : BaseViewModel
     {
-        protected BaseContentPage(string pageTitle)
+        protected BaseContentPage(T viewModel, string pageTitle)
         {
-            BindingContext = ViewModel;
+            BindingContext = ViewModel = viewModel;
             Title = pageTitle;
         }
 
-        protected T ViewModel { get; } = new T();
+        protected T ViewModel { get; }
     }
 }

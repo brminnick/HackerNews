@@ -1,18 +1,21 @@
-﻿using Microsoft.Maui.Controls;
+﻿using Microsoft.Maui;
+using Microsoft.Maui.Controls;
 
 namespace HackerNews
 {
     public class App : Application
     {
-        public App()
+        protected override Window CreateWindow(IActivationState activationState)
         {
-            var navigationPage = new NavigationPage(new NewsPage())
+            var newsPage = ServiceProvider.GetService<NewsPage>();
+
+            var navigationPage = new NavigationPage(newsPage)
             {
                 BarBackgroundColor = ColorConstants.NavigationBarBackgroundColor,
                 BarTextColor = ColorConstants.NavigationBarTextColor
             };
 
-            MainPage = navigationPage;
+            return new Window(navigationPage);
         }
     }
 }

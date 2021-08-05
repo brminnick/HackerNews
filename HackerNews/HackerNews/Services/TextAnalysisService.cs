@@ -1,20 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
-using Azure;
+﻿using System.Threading.Tasks;
 using Azure.AI.TextAnalytics;
 
 namespace HackerNews
 {
-    static class TextAnalysisService
+    class TextAnalysisService
     {
-        readonly static Lazy<TextAnalyticsClient> _textAnalyticsApiClientHolder = new Lazy<TextAnalyticsClient>(() =>
-            new TextAnalyticsClient(new Uri(TextAnalysisConstants.BaseUrl), new AzureKeyCredential(TextAnalysisConstants.SentimentKey)));
+        readonly TextAnalyticsClient _textAnalyticsApiClient;
 
-        static TextAnalyticsClient TextAnalyticsApiClient => _textAnalyticsApiClientHolder.Value;
+        public TextAnalysisService(TextAnalyticsClient textAnalyticsClient) => _textAnalyticsApiClient = textAnalyticsClient;
 
-        public static async Task<TextSentiment> GetSentiment(string text)
+        public async Task<TextSentiment> GetSentiment(string text)
         {
-            var response = await TextAnalyticsApiClient.AnalyzeSentimentAsync(text).ConfigureAwait(false);
+            var response = await _textAnalyticsApiClient.AnalyzeSentimentAsync(text).ConfigureAwait(false);
             return response.Value.Sentiment;
         }
     }

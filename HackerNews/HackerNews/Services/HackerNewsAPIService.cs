@@ -6,14 +6,14 @@ using Refit;
 
 namespace HackerNews
 {
-    public static class HackerNewsAPIService
+    class HackerNewsAPIService
     {
-        readonly static Lazy<IHackerNewsAPI> _hackerNewsApiClientHolder = new(RestService.For<IHackerNewsAPI>("https://hacker-news.firebaseio.com/v0"));
+        readonly IHackerNewsAPI _hackerNewsClient;
 
-        static IHackerNewsAPI HackerNewsApiClient => _hackerNewsApiClientHolder.Value;
+        public HackerNewsAPIService(IHackerNewsAPI hackerNewslient) => _hackerNewsClient = hackerNewslient;
 
-        public static Task<StoryModel> GetStory(long storyId) => AttemptAndRetry(() => HackerNewsApiClient.GetStory(storyId));
-        public static Task<IReadOnlyList<long>> GetTopStoryIDs() => AttemptAndRetry(() => HackerNewsApiClient.GetTopStoryIDs());
+        public Task<StoryModel> GetStory(long storyId) => AttemptAndRetry(() => _hackerNewsClient.GetStory(storyId));
+        public Task<IReadOnlyList<long>> GetTopStoryIDs() => AttemptAndRetry(() => _hackerNewsClient.GetTopStoryIDs());
 
         static Task<T> AttemptAndRetry<T>(Func<Task<T>> action, int numRetries = 3)
         {

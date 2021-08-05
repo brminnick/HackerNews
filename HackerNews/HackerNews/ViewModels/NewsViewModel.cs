@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using AsyncAwaitBestPractices;
@@ -12,15 +11,19 @@ using Microsoft.Maui.Controls;
 
 namespace HackerNews
 {
-    public class NewsViewModel : BaseViewModel
+    class NewsViewModel : BaseViewModel
     {
-        readonly WeakEventManager<string> _pullToRefreshEventManager = new WeakEventManager<string>();
+        readonly WeakEventManager<string> _pullToRefreshEventManager = new();
+        readonly TextAnalysisService _textAnalysisService;
+        readonly HackerNewsAPIService _hackerNewsAPIService;
 
         bool _isListRefreshing;
-        ICommand? _refreshCommand;
 
-        public NewsViewModel()
+        public NewsViewModel(TextAnalysisService textAnalysisService, HackerNewsAPIService hackerNewsAPIService)
         {
+            _textAnalysisService = textAnalysisService;
+            _hackerNewsAPIService = hackerNewsAPIService;
+
             RefreshCommand = new AsyncCommand(ExecuteRefreshCommand);
 
             //Ensure Observable Collection is thread-safe https://codetraveler.io/2019/09/11/using-observablecollection-in-a-multi-threaded-xamarin-forms-application/
@@ -55,9 +58,9 @@ namespace HackerNews
 
                     try
                     {
-                        updatedStory = story with { TitleSentiment = await TextAnalysisService.GetSentiment(story.Title).ConfigureAwait(false) };
+                        updatedStory = story with { TitleSentiment = await _textAnalysisService.GetSentiment(story.Title).ConfigureAwait(false) };
                     }
-                    catch
+                    catch (Exception e)
                     {
                         //Todo Add TextAnalysis API Key in TextAnalysisConstants.cs
                         updatedStory = story;
@@ -81,8 +84,8 @@ namespace HackerNews
 
         async IAsyncEnumerable<StoryModel> GetTopStories(int? storyCount = int.MaxValue)
         {
-            var topStoryIds = await HackerNewsAPIService.GetTopStoryIDs().ConfigureAwait(false);
-            var getTopStoryTaskList = topStoryIds.Select(HackerNewsAPIService.GetStory).ToList();
+            var topStoryIds = await _hackerNewsAPIService.GetTopStoryIDs().ConfigureAwait(false);
+            var getTopStoryTaskList = topStoryIds.Select(_hackerNewsAPIService.GetStory).ToList();
 
             while (getTopStoryTaskList.Any() && storyCount-- > 0)
             {

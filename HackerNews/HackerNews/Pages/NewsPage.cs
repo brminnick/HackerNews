@@ -8,9 +8,9 @@ using Microsoft.Maui.Essentials;
 
 namespace HackerNews
 {
-    public class NewsPage : BaseContentPage<NewsViewModel>
+    class NewsPage : BaseContentPage<NewsViewModel>
     {
-        public NewsPage() : base("Top Stories")
+        public NewsPage(NewsViewModel newsViewModel) : base(newsViewModel, "Top Stories")
         {
             ViewModel.PullToRefreshFailed += HandlePullToRefreshFailed;
 
