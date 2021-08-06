@@ -38,7 +38,7 @@
 	<ItemGroup>
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.0" />
         <PackageReference Include="Polly" Version="7.2.2" />
-        <PackageReference Include="Refit" Version="6.0.38" />
+        <PackageReference Include="Refit" Version="6.0.94" />
         <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0" />
         <PackageReference Include="CommunityToolkit.Maui.Markup" Version="1.0.0-pre1" />
 	</ItemGroup>
