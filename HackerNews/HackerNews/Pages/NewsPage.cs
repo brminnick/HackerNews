@@ -24,13 +24,11 @@ namespace HackerNews
                     SelectionMode = SelectionMode.Single,
                     ItemTemplate = new StoryDataTemplate(),
 
-                }.Assign(out CollectionView collectionView)
-                 .Bind(CollectionView.ItemsSourceProperty, nameof(NewsViewModel.TopStoryCollection))
+                }.Bind(CollectionView.ItemsSourceProperty, nameof(NewsViewModel.TopStoryCollection))
+                 .Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged)
 
             }.Bind(RefreshView.IsRefreshingProperty, nameof(NewsViewModel.IsListRefreshing))
              .Bind(RefreshView.CommandProperty, nameof(NewsViewModel.RefreshCommand));
-
-            collectionView.SelectionChanged += HandleSelectionChanged;
         }
 
         protected override void OnAppearing()
