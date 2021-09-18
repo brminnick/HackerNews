@@ -3,8 +3,9 @@ using Microsoft.Maui;
 
 namespace HackerNews
 {
-	[Register("AppDelegate")]
-	public class AppDelegate : MauiUIApplicationDelegate<Startup>
-	{
-	}
+    [Register(nameof(AppDelegate))]
+    public class AppDelegate : MauiUIApplicationDelegate
+    {
+        protected override MauiApp CreateMauiApp() => Startup.Create();
+    }
 }

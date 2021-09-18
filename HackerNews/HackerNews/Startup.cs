@@ -1,15 +1,11 @@
-﻿using CommunityToolkit.Maui.Markup.Sample.Pages;
-using CommunityToolkit.Maui.Markup.Sample.Services;
-using CommunityToolkit.Maui.Markup.Sample.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Controls.Xaml;
 using Refit;
 
-[assembly: XamlCompilationAttribute(XamlCompilationOptions.Compile)]
-
-namespace CommunityToolkit.Maui.Markup.Sample
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
+namespace HackerNews
 {
     public class Startup
     {
@@ -19,7 +15,7 @@ namespace CommunityToolkit.Maui.Markup.Sample
             builder.UseMauiApp<App>();
 
             // Services
-            builder.Services.AddSingleton(RestService.For<IHackerNewsApi>("https://hacker-news.firebaseio.com/v0"));
+            builder.Services.AddSingleton(RestService.For<IHackerNewsAPI>("https://hacker-news.firebaseio.com/v0"));
             builder.Services.AddSingleton<HackerNewsAPIService>();
 
             // View Models
