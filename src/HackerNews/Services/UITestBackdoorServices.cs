@@ -1,4 +1,5 @@
 ﻿#if DEBUG
+using System;
 using System.Collections.Generic;
 using Microsoft.Maui.Controls;
 
@@ -10,7 +11,7 @@ namespace HackerNews
 
         static NewsPage GetNewsPage()
         {
-            var mainPage = (NavigationPage)Application.Current.MainPage;
+            var mainPage = (NavigationPage)(Application.Current?.MainPage ?? throw new NullReferenceException());
             return (NewsPage)mainPage.RootPage;
         }
 

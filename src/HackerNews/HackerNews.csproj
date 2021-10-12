@@ -1,24 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<!-- iOS, Android, MacCatalyst -->
 		<TargetFrameworks>net6.0-ios;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
+		<!-- <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
+		<RootNamespace>HelloMauiToolkit</RootNamespace>
 		<UseMaui>true</UseMaui>
-		<UseMauiEssentials>true</UseMauiEssentials>
 		<SingleProject>true</SingleProject>
-		<PublishTrimmed>false</PublishTrimmed>
-		<RootNamespace>HackerNews</RootNamespace>
+		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
 
 		<!-- Display name -->
-		<ApplicationTitle>HackerNews</ApplicationTitle>
+		<ApplicationTitle>HelloMauiToolkit</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.Minnick.HackerNews</ApplicationId>
+		<ApplicationId>com.Minnick.HelloMauiToolkit</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationVersion>1.0</ApplicationVersion>
-		<AndroidVersionCode>1</AndroidVersionCode>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<!-- Required for C# Hot Reload -->
+		<UseInterpreter Condition="'$(Configuration)' == 'Debug'">True</UseInterpreter>
+
+		<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-maccatalyst'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.18362.0</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -36,7 +42,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.1" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.2" />
         <PackageReference Include="Polly" Version="7.2.2" />
         <PackageReference Include="Refit" Version="6.0.94" />
         <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0" />

@@ -1,11 +1,11 @@
 ﻿using Foundation;
 using Microsoft.Maui;
+using Microsoft.Maui.Hosting;
 
-namespace HackerNews
+namespace HackerNews;
+
+[Register(nameof(AppDelegate))]
+public class AppDelegate : MauiUIApplicationDelegate
 {
-    [Register(nameof(AppDelegate))]
-    public class AppDelegate : MauiUIApplicationDelegate
-    {
-        protected override MauiApp CreateMauiApp() => Startup.Create();
-    }
+    protected override MauiApp CreateMauiApp() => MauiProgram.Create();
 }
