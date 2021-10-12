@@ -6,6 +6,6 @@
 version: 2
 updates:
   - package-ecosystem: "nuget"
-    directory: "/HackerNews"
+    directory: "/src"
     schedule:
       interval: "daily"
