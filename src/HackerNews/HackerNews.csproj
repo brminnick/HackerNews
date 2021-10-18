@@ -10,10 +10,10 @@
 		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
 
 		<!-- Display name -->
-		<ApplicationTitle>HelloMauiToolkit</ApplicationTitle>
+		<ApplicationTitle>HackerNews</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.Minnick.HelloMauiToolkit</ApplicationId>
+		<ApplicationId>com.Minnick.HackerNews</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationVersion>1</ApplicationVersion>

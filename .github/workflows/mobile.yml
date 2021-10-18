@@ -5,30 +5,60 @@ on:
     branches:
       - "main"
   pull_request:
-    branches: 
+    branches:
       - "*"
 
 jobs:
-    Build_Android:
-      runs-on: macos-latest
+  Build_Android:
+    runs-on: macos-11
 
-      steps:
+    steps:
       - uses: actions/checkout@v1
-      
+
       - name: Setup .NET v6.0
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: "6.0.x"
           include-prerelease: true
 
       - name: Install .NET MAUI Workload
         run: |
           dotnet workload install maui
 
-      - name: Restore NuGet 
+      - name: Restore NuGet
         run: |
           dotnet restore ./src
-          
+
       - name: Build Android App
-        run: |                    
-          dotnet build ./src/HackerNews -f net6.0-android
+        run: |
+          dotnet build ./src -f net6.0-android
+
+  Build_iOS:
+    runs-on: macos-11
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Setup .NET v6.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.0.x"
+          include-prerelease: true
+
+      - name: Install .NET MAUI Workload
+        run: |
+          dotnet workload install maui
+
+      - name: Restore NuGet
+        run: |
+          dotnet restore ./src
+
+      - name: Set default Xcode 13.0
+        run: |
+          XCODE_ROOT=/Applications/Xcode_13.0.app
+          echo "MD_APPLE_SDK_ROOT=$XCODE_ROOT" >> $GITHUB_ENV
+          sudo xcode-select -s $XCODE_ROOT
+
+      - name: Build iOS App
+        run: |
+          dotnet build ./src -f net6.0-ios
