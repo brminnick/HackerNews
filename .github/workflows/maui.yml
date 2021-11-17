@@ -1,4 +1,4 @@
-name: Mobile
+name: MAUI
 
 on:
   push:
@@ -87,3 +87,33 @@ jobs:
       - name: Build iOS App
         run: |
           dotnet build ./src -f net6.0-maccatalyst
+
+  Build_Windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Setup .NET v6.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.0.x"
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Install .NET MAUI Workload
+        run: |
+          dotnet workload install maui
+      - name: Maui Check
+        run: |
+          dotnet tool install -g Redth.Net.Maui.Check
+          maui-check --non-interactive --fix --ci --skip xcode --skip VisualStudioWindowsCheckup
+      - name: Restore NuGet
+        run: |
+          dotnet restore ./src
+      - name: Build Windows App
+        run: |
+          dotnet build ./src
