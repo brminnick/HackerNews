@@ -20,7 +20,7 @@ namespace HackerNews
 
                 Content = new CollectionView
                 {
-                    BackgroundColor = Color.FromHex("F6F6EF"),
+                    BackgroundColor = Color.FromArgb("F6F6EF"),
                     SelectionMode = SelectionMode.Single,
                     ItemTemplate = new StoryDataTemplate(),
 
