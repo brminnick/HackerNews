@@ -1,4 +1,4 @@
-[![Mobile](https://github.com/brminnick/HackerNews/actions/workflows/mobile.yml/badge.svg)](https://github.com/brminnick/HackerNews/actions/workflows/mobile.yml)
+[![MAUI](https://github.com/brminnick/HackerNews/actions/workflows/maui.yml/badge.svg)](https://github.com/brminnick/HackerNews/actions/workflows/maui.yml)
 
 # HackerNews
 
