@@ -1,14 +1,23 @@
 ﻿using Microsoft.Maui;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 
 namespace HackerNews
 {
-    class App : Application
+    class App : Microsoft.Maui.Controls.Application
     {
-        public App(NewsPage newsPage) => MainPage = new NavigationPage(newsPage)
+        public App(NewsPage newsPage)
         {
-            BarBackgroundColor = ColorConstants.NavigationBarBackgroundColor,
-            BarTextColor = ColorConstants.NavigationBarTextColor
-        };
+            var navigationPage = new Microsoft.Maui.Controls.NavigationPage(newsPage)
+            {
+                BarBackgroundColor = ColorConstants.NavigationBarBackgroundColor,
+                BarTextColor = ColorConstants.NavigationBarTextColor
+            };
+
+            navigationPage.On<iOS>().SetPrefersLargeTitles(true);
+
+            MainPage = navigationPage;
+        }
     }
 }
