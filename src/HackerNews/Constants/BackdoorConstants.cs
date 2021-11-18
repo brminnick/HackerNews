@@ -1,7 +1,6 @@
-﻿namespace HackerNews
+﻿namespace HackerNews;
+
+public static class BackdoorConstants
 {
-    public static class BackdoorConstants
-    {
-        public const string GetSerializedStoryList = nameof(GetSerializedStoryList);
-    }
+	public const string GetSerializedStoryList = nameof(GetSerializedStoryList);
 }
