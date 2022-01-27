@@ -1,6 +1,7 @@
 ﻿using System;
 using Azure;
 using Azure.AI.TextAnalytics;
+using CommunityToolkit.Maui.Markup;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Controls.Xaml;
@@ -15,7 +16,7 @@ public class MauiProgram
 	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
-		builder.UseMauiApp<App>();
+		builder.UseMauiApp<App>().UseMauiCommunityToolkitMarkup();
 
 		// Services
 		builder.Services.AddSingleton<App>();
