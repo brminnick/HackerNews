@@ -1,14 +1,15 @@
-﻿using Microsoft.Maui.Controls;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Maui.Controls;
 
 namespace HackerNews;
 
-public abstract class BaseContentPage<T> : ContentPage where T : BaseViewModel
+public abstract class BaseContentPage<T> : ContentPage where T : ObservableObject
 {
 	protected BaseContentPage(T viewModel, string pageTitle)
 	{
-		BindingContext = ViewModel = viewModel;
 		Title = pageTitle;
+		base.BindingContext = viewModel;
 	}
 
-	protected T ViewModel { get; }
+	protected new T BindingContext => (T)base.BindingContext;
 }

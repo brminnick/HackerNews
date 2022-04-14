@@ -7,15 +7,13 @@
 		<RootNamespace>HackerNews</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
-		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
-		<!-- Display name -->
+
 		<ApplicationTitle>HackerNews</ApplicationTitle>
-		<!-- App Identifier -->
+
 		<ApplicationId>com.Minnick.HackerNews</ApplicationId>
-		<!-- Versions -->
+
 		<ApplicationVersion>1</ApplicationVersion>
-		<!-- Required for C# Hot Reload -->
-		<UseInterpreter Condition="'$(Configuration)' == 'Debug'">True</UseInterpreter>
+
 		<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-maccatalyst'">14.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-android'">21.0</SupportedOSPlatformVersion>
@@ -35,21 +33,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.4" />
 		<PackageReference Include="Polly" Version="7.2.3" />
 		<PackageReference Include="Refit" Version="6.3.2" />
 		<PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.1" />
-		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="1.0.0-pre8" />
+		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="1.0.0-pre9" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0-preview3" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<!-- Required - WinUI does not yet have buildTransitive for everything -->
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.2" />
-		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.1" />
-	</ItemGroup>
-
-	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<OutputType>WinExe</OutputType>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-	</PropertyGroup>
 </Project>

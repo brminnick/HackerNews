@@ -5,26 +5,32 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using AsyncAwaitBestPractices;
-using AsyncAwaitBestPractices.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Dispatching;
 
 namespace HackerNews;
 
-class NewsViewModel : BaseViewModel
+partial class NewsViewModel : ObservableObject
 {
-	readonly WeakEventManager<string> _pullToRefreshEventManager = new();
+	readonly IDispatcher _dispatcher;
 	readonly TextAnalysisService _textAnalysisService;
 	readonly HackerNewsAPIService _hackerNewsAPIService;
 
+	readonly WeakEventManager _pullToRefreshEventManager = new();
+
+	[ObservableProperty]
 	bool _isListRefreshing;
 
-	public NewsViewModel(TextAnalysisService textAnalysisService, HackerNewsAPIService hackerNewsAPIService)
+	public NewsViewModel(IDispatcher dispatcher,
+							TextAnalysisService textAnalysisService,
+							HackerNewsAPIService hackerNewsAPIService)
 	{
+		_dispatcher = dispatcher;
 		_textAnalysisService = textAnalysisService;
 		_hackerNewsAPIService = hackerNewsAPIService;
-
-		RefreshCommand = new AsyncCommand(ExecuteRefreshCommand);
 
 		//Ensure Observable Collection is thread-safe https://codetraveler.io/2019/09/11/using-observablecollection-in-a-multi-threaded-xamarin-forms-application/
 		BindingBase.EnableCollectionSynchronization(TopStoryCollection, null, ObservableCollectionCallback);
@@ -38,15 +44,32 @@ class NewsViewModel : BaseViewModel
 
 	public ObservableCollection<StoryModel> TopStoryCollection { get; } = new ObservableCollection<StoryModel>();
 
-	public ICommand RefreshCommand { get; }
-
-	public bool IsListRefreshing
+	static void InsertIntoSortedCollection<T>(ObservableCollection<T> collection, Comparison<T> comparison, T modelToInsert)
 	{
-		get => _isListRefreshing;
-		set => SetProperty(ref _isListRefreshing, value);
+		if (collection.Count is 0)
+		{
+			collection.Add(modelToInsert);
+		}
+		else
+		{
+			int index = 0;
+			foreach (var model in collection)
+			{
+				if (comparison(model, modelToInsert) >= 0)
+				{
+					collection.Insert(index, modelToInsert);
+					return;
+				}
+
+				index++;
+			}
+
+			collection.Insert(index, modelToInsert);
+		}
 	}
 
-	async Task ExecuteRefreshCommand()
+	[ICommand]
+	async Task Refresh()
 	{
 		TopStoryCollection.Clear();
 
@@ -97,35 +120,11 @@ class NewsViewModel : BaseViewModel
 		}
 	}
 
-	void InsertIntoSortedCollection<T>(ObservableCollection<T> collection, Comparison<T> comparison, T modelToInsert)
-	{
-		if (collection.Count is 0)
-		{
-			collection.Add(modelToInsert);
-		}
-		else
-		{
-			int index = 0;
-			foreach (var model in collection)
-			{
-				if (comparison(model, modelToInsert) >= 0)
-				{
-					collection.Insert(index, modelToInsert);
-					return;
-				}
-
-				index++;
-			}
-
-			collection.Insert(index, modelToInsert);
-		}
-	}
-
 	//Ensure Observable Collection is thread-safe https://codetraveler.io/2019/09/11/using-observablecollection-in-a-multi-threaded-xamarin-forms-application/
 	void ObservableCollectionCallback(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
 	{
-		Device.BeginInvokeOnMainThread(accessMethod);
+		_dispatcher.Dispatch(accessMethod);
 	}
 
-	void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager.RaiseEvent(this, message, nameof(PullToRefreshFailed));
+	void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager.HandleEvent(this, message, nameof(PullToRefreshFailed));
 }

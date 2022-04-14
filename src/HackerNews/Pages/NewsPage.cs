@@ -2,17 +2,26 @@
 using System.Collections;
 using System.Linq;
 using CommunityToolkit.Maui.Markup;
+using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
-using Microsoft.Maui.Essentials;
+using Microsoft.Maui.Dispatching;
 using Microsoft.Maui.Graphics;
 
 namespace HackerNews;
 
 class NewsPage : BaseContentPage<NewsViewModel>
 {
-	public NewsPage(NewsViewModel newsViewModel) : base(newsViewModel, "Top Stories")
+	readonly IBrowser _browser;
+	readonly IDispatcher _dispatcher;
+
+	public NewsPage(IBrowser browser,
+						IDispatcher dispatcher,
+						NewsViewModel newsViewModel) : base(newsViewModel, "Top Stories")
 	{
-		ViewModel.PullToRefreshFailed += HandlePullToRefreshFailed;
+		_browser = browser;
+		_dispatcher = dispatcher;
+
+		BindingContext.PullToRefreshFailed += HandlePullToRefreshFailed;
 
 		Content = new RefreshView
 		{
@@ -47,7 +56,9 @@ class NewsPage : BaseContentPage<NewsViewModel>
 
 	async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e)
 	{
-		var collectionView = (CollectionView)(sender ?? throw new NullReferenceException());
+		ArgumentNullException.ThrowIfNull(sender);
+
+		var collectionView = (CollectionView)sender;
 		collectionView.SelectedItem = null;
 
 		if (e.CurrentSelection.FirstOrDefault() is StoryModel storyModel)
@@ -60,7 +71,7 @@ class NewsPage : BaseContentPage<NewsViewModel>
 					PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
 				};
 
-				await Browser.OpenAsync(storyModel.Url, browserOptions);
+				await _browser.OpenAsync(storyModel.Url, browserOptions);
 			}
 			else
 			{
@@ -70,5 +81,5 @@ class NewsPage : BaseContentPage<NewsViewModel>
 	}
 
 	void HandlePullToRefreshFailed(object? sender, string message) =>
-		Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Refresh Failed", message, "OK"));
+		_dispatcher.DispatchAsync(() => DisplayAlert("Refresh Failed", message, "OK"));
 }

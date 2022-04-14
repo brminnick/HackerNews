@@ -15,10 +15,15 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Setup .NET v6.0
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: "6.0.x"
+      # - name: Setup .NET v6.0
+      #   uses: actions/setup-dotnet@v1
+      #   with:
+      #     dotnet-version: "6.0.x"
+
+      - name: Install .NET 6.0.300-preview.22204.3
+        run: |
+          curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version 6.0.300-preview.22204.3 --quality preview
+          dotnet --version
 
       - name: Install .NET MAUI Workload
         run: |
@@ -38,10 +43,15 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Setup .NET v6.0
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: "6.0.x"
+      # - name: Setup .NET v6.0
+      #   uses: actions/setup-dotnet@v1
+      #   with:
+      #     dotnet-version: "6.0.x"
+
+      - name: Install .NET 6.0.300-preview.22204.3
+        run: |
+          curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version 6.0.300-preview.22204.3 --quality preview
+          dotnet --version
 
       - name: Install .NET MAUI Workload
         run: |
@@ -66,10 +76,15 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Setup .NET v6.0
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: "6.0.x"
+      # - name: Setup .NET v6.0
+      #   uses: actions/setup-dotnet@v1
+      #   with:
+      #     dotnet-version: "6.0.x"
+
+      - name: Install .NET 6.0.300-preview.22204.3
+        run: |
+          curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version 6.0.300-preview.22204.3 --quality preview
+          dotnet --version
 
       - name: Install .NET MAUI Workload
         run: |
@@ -84,7 +99,7 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Build iOS App
+      - name: Build macOS App
         run: |
           dotnet build ./src -f net6.0-maccatalyst
 
@@ -99,16 +114,27 @@ jobs:
           distribution: 'microsoft'
           java-version: '11'
 
-      - name: Setup .NET v6.0
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: "6.0.x"
+      # - name: Setup .NET v6.0
+      #   uses: actions/setup-dotnet@v1
+      #   with:
+      #     dotnet-version: "6.0.x"
 
-      - name: Install .NET MAUI Workload
-        run: dotnet workload install maui
+      # - name: Install .NET MAUI Workload
+      #   run: |
+      #     dotnet workload install maui
+
+      - name: Install .NET 6.0.300-preview.22204.3 + .NET MAUI
+        shell: pwsh
+        run: |
+          wget https://dot.net/v1/dotnet-install.ps1 -OutFile C:\dotnet-install.ps1
+          C:\dotnet-install.ps1 -Version 6.0.300-preview.22204.3
+          dotnet --info
+          dotnet workload install maui;
 
       - name: Restore NuGet
-        run: dotnet restore ./src
+        run: |
+          dotnet restore ./src
 
       - name: Build Windows App
-        run: dotnet build ./src
+        run: |
+          dotnet build ./src
