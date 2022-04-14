@@ -12,7 +12,7 @@ public class StoryDataTemplate : DataTemplate
 
 	}
 
-	static Grid CreateGrid() => new Grid
+	static Grid CreateGrid() => new()
 	{
 		RowSpacing = 1,
 
@@ -22,37 +22,19 @@ public class StoryDataTemplate : DataTemplate
 			(Row.BottomPadding, 1)),
 
 		Children =
-			{
-				new TitleLabel().Row(Row.Title)
-					.Bind(Label.TextProperty, nameof(StoryModel.Title)),
-				new DescriptionLabel().Row(Row.Description)
-					.Bind(Label.TextProperty, nameof(StoryModel.Description))
-			}
+		{
+			new Label()
+				.Row(Row.Title).Top()
+				.Font(size: 16).TextColor(ColorConstants.TextCellTextColor)
+				.Paddings(10, 0, 10, 0)
+				.Bind(Label.TextProperty, nameof(StoryModel.Title)),
+
+			new Label()
+				.Row(Row.Description)
+				.Font(size: 13).TextColor(ColorConstants.TextCellDetailColor)
+				.Bind(Label.TextProperty, nameof(StoryModel.Description))
+		}
 	};
 
 	enum Row { Title, Description, BottomPadding }
-
-	class TitleLabel : Label
-	{
-		public TitleLabel()
-		{
-			FontSize = 16;
-			TextColor = ColorConstants.TextCellTextColor;
-
-			VerticalTextAlignment = TextAlignment.Start;
-
-			Padding = new Thickness(10, 0);
-		}
-	}
-
-	class DescriptionLabel : Label
-	{
-		public DescriptionLabel()
-		{
-			FontSize = 13;
-			TextColor = ColorConstants.TextCellDetailColor;
-
-			Padding = new Thickness(10, 0, 10, 5);
-		}
-	}
 }

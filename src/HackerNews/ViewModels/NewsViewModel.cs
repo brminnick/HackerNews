@@ -42,7 +42,7 @@ partial class NewsViewModel : ObservableObject
 		remove => _pullToRefreshEventManager.RemoveEventHandler(value);
 	}
 
-	public ObservableCollection<StoryModel> TopStoryCollection { get; } = new ObservableCollection<StoryModel>();
+	public ObservableCollection<StoryModel> TopStoryCollection { get; } = new();
 
 	static void InsertIntoSortedCollection<T>(ObservableCollection<T> collection, Comparison<T> comparison, T modelToInsert)
 	{
