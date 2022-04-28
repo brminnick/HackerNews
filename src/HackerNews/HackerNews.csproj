@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net6.0-ios;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>HackerNews</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -11,6 +11,7 @@
 		<ApplicationTitle>HackerNews</ApplicationTitle>
 
 		<ApplicationId>com.Minnick.HackerNews</ApplicationId>
+		<ApplicationIdGuid>da4c7bba-c5a8-4480-9feb-b4bd874144fb</ApplicationIdGuid> 
 
 		<ApplicationVersion>1</ApplicationVersion>
 
