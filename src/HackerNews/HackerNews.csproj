@@ -37,7 +37,7 @@
 		<PackageReference Include="Polly" Version="7.2.3" />
 		<PackageReference Include="Refit" Version="6.3.2" />
 		<PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.1" />
-		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="1.0.0-rc3" />
+		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="1.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0-preview3" />
 	</ItemGroup>
 
