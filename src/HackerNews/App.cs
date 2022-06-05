@@ -1,20 +1,27 @@
-﻿using Microsoft.Maui.Controls.PlatformConfiguration;
-using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
+﻿using CommunityToolkit.Maui.Markup;
+using Microsoft.Maui.Controls;
 
 namespace HackerNews;
 
-class App : Microsoft.Maui.Controls.Application
+class App : Application
 {
-	public App(NewsPage newsPage)
+	public App(AppShell appshell)
 	{
-		var navigationPage = new Microsoft.Maui.Controls.NavigationPage(newsPage)
+		Resources = new ResourceDictionary()
 		{
-			BarBackgroundColor = ColorConstants.NavigationBarBackgroundColor,
-			BarTextColor = ColorConstants.NavigationBarTextColor
+			new Style<Shell>(
+				(Shell.NavBarHasShadowProperty, true),
+				(Shell.TitleColorProperty, ColorConstants.NavigationBarTextColor),
+				(Shell.DisabledColorProperty, ColorConstants.NavigationBarTextColor),
+				(Shell.UnselectedColorProperty, ColorConstants.NavigationBarTextColor),
+				(Shell.ForegroundColorProperty, ColorConstants.NavigationBarTextColor),
+				(Shell.BackgroundColorProperty, ColorConstants.NavigationBarBackgroundColor)).ApplyToDerivedTypes(true),
+
+			new Style<NavigationPage>(
+				(NavigationPage.BarTextColorProperty, ColorConstants.NavigationBarTextColor),
+				(NavigationPage.BarBackgroundColorProperty, ColorConstants.NavigationBarBackgroundColor)).ApplyToDerivedTypes(true)
 		};
 
-		navigationPage.On<iOS>().SetPrefersLargeTitles(true);
-
-		MainPage = navigationPage;
+		MainPage = appshell;
 	}
 }

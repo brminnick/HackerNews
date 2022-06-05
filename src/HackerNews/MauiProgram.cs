@@ -19,8 +19,11 @@ public class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder.UseMauiApp<App>().UseMauiCommunityToolkitMarkup();
 
-		// Services
+		// App
 		builder.Services.AddSingleton<App>();
+		builder.Services.AddSingleton<AppShell>();
+
+		// Services
 		builder.Services.AddSingleton<TextAnalysisService>();
 		builder.Services.AddSingleton<HackerNewsAPIService>();
 		builder.Services.AddSingleton(RestService.For<IHackerNewsAPI>("https://hacker-news.firebaseio.com/v0"));

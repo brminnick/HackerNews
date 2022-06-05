@@ -13,7 +13,7 @@ using Microsoft.Maui.Dispatching;
 
 namespace HackerNews;
 
-partial class NewsViewModel : ObservableObject
+partial class NewsViewModel : BaseViewModel
 {
 	readonly IDispatcher _dispatcher;
 	readonly TextAnalysisService _textAnalysisService;
