@@ -68,7 +68,7 @@ partial class NewsViewModel : BaseViewModel
 		}
 	}
 
-	[ICommand]
+	[RelayCommand]
 	async Task Refresh()
 	{
 		TopStoryCollection.Clear();
