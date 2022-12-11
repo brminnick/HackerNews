@@ -15,10 +15,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Setup .NET v6.0
-        uses: actions/setup-dotnet@v1
+      - name: Setup .NET v7.0
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "6.0.x"
+          dotnet-version: "7.0.x"
 
       - name: Install .NET MAUI Workload
         run: |
@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Android App
         run: |
-          dotnet build ./src -f net6.0-android
+          dotnet build ./src -f net7.0-android
 
   Build_iOS:
     runs-on: macos-12
@@ -38,10 +38,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Setup .NET v6.0
-        uses: actions/setup-dotnet@v1
+      - name: Setup .NET v7.0
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "6.0.x"
+          dotnet-version: "7.0.x"
 
       - name: Install .NET MAUI Workload
         run: |
@@ -58,7 +58,7 @@ jobs:
 
       - name: Build iOS App
         run: |
-          dotnet build ./src -f net6.0-ios
+          dotnet build ./src -f net7.0-ios
           
   Build_MacCatalyst:
     runs-on: macos-12
@@ -66,10 +66,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Setup .NET v6.0
-        uses: actions/setup-dotnet@v1
+      - name: Setup .NET v7.0
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "6.0.x"
+          dotnet-version: "7.0.x"
 
       - name: Install .NET MAUI Workload
         run: |
@@ -86,7 +86,7 @@ jobs:
 
       - name: Build macOS App
         run: |
-          dotnet build ./src -f net6.0-maccatalyst
+          dotnet build ./src -f net7.0-maccatalyst
 
   Build_Windows:
     runs-on: windows-latest
@@ -99,10 +99,10 @@ jobs:
           distribution: 'microsoft'
           java-version: '11'
 
-      - name: Setup .NET v6.0
-        uses: actions/setup-dotnet@v1
+      - name: Setup .NET v7.0
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "6.0.x"
+          dotnet-version: "7.0.x"
 
       - name: Install .NET MAUI Workload
         run: |
