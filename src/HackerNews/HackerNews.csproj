@@ -38,7 +38,7 @@
 		<PackageReference Include="Refit" Version="6.3.2" />
 		<PackageReference Include="Azure.AI.TextAnalytics" Version="5.2.0" />
 		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="2.1.0" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 	</ItemGroup>
 
 </Project>
