@@ -7,4 +7,3 @@ namespace HackerNews;
 abstract partial class BaseViewModel
 {
 }
-

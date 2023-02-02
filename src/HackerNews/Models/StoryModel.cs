@@ -1,5 +1,4 @@
-﻿using System;
-using Azure.AI.TextAnalytics;
+﻿using Azure.AI.TextAnalytics;
 
 namespace HackerNews;
 
@@ -19,9 +18,9 @@ public record StoryModel(long Id, string By, long Score, long Time, string Title
 		_ => throw new NotSupportedException()
 	};
 
-	public override string ToString() => $"{TitleSentimentEmoji} {Score} Points by {By}, {GetAgeOfStory(CreatedAt)} ago";
-
 	public TextSentiment? TitleSentiment { get; init; }
+
+	public override string ToString() => $"{TitleSentimentEmoji} {Score} Points by {By}, {GetAgeOfStory(CreatedAt)} ago";
 
 	static string GetAgeOfStory(DateTimeOffset storyCreatedAt)
 	{

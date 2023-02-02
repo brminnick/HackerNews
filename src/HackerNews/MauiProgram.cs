@@ -7,6 +7,7 @@ using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Controls.Xaml;
 using Microsoft.Maui.Hosting;
+using Polly;
 using Refit;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
@@ -26,8 +27,10 @@ public class MauiProgram
 		// Services
 		builder.Services.AddSingleton<TextAnalysisService>();
 		builder.Services.AddSingleton<HackerNewsAPIService>();
-		builder.Services.AddSingleton(RestService.For<IHackerNewsAPI>("https://hacker-news.firebaseio.com/v0"));
 		builder.Services.AddSingleton(new TextAnalyticsClient(new Uri(TextAnalysisConstants.BaseUrl), new AzureKeyCredential(TextAnalysisConstants.SentimentKey)));
+		builder.Services.AddRefitClient<IHackerNewsAPI>()
+							.ConfigureHttpClient(client => client.BaseAddress = new Uri("https://hacker-news.firebaseio.com/v0"))
+							.AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(3, sleepDurationProvider));
 
 		builder.Services.AddSingleton(Browser.Default);
 
@@ -38,5 +41,7 @@ public class MauiProgram
 		builder.Services.AddTransient<NewsPage>();
 
 		return builder.Build();
+
+		static TimeSpan sleepDurationProvider(int attemptNumber) => TimeSpan.FromSeconds(Math.Pow(2, attemptNumber));
 	}
 }

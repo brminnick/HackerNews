@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
+﻿using System.Collections;
 using CommunityToolkit.Maui.Markup;
-using Microsoft.Maui.ApplicationModel;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Dispatching;
-using Microsoft.Maui.Graphics;
 
 namespace HackerNews;
 
@@ -33,11 +27,11 @@ class NewsPage : BaseContentPage<NewsViewModel>
 				SelectionMode = SelectionMode.Single,
 				ItemTemplate = new StoryDataTemplate(),
 
-			}.Bind(CollectionView.ItemsSourceProperty, nameof(NewsViewModel.TopStoryCollection))
+			}.Bind(CollectionView.ItemsSourceProperty, static (NewsViewModel vm) => vm.TopStoryCollection)
 			 .Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged)
 
-		}.Bind(RefreshView.IsRefreshingProperty, nameof(NewsViewModel.IsListRefreshing))
-		 .Bind(RefreshView.CommandProperty, nameof(NewsViewModel.RefreshCommand));
+		}.Bind(RefreshView.IsRefreshingProperty, static (NewsViewModel vm) => vm.IsListRefreshing)
+		 .Bind(RefreshView.CommandProperty, static (NewsViewModel vm) => vm.RefreshCommand);
 	}
 
 	protected override void OnAppearing()
