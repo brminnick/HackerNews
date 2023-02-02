@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Azure.AI.TextAnalytics;
+﻿using Azure.AI.TextAnalytics;
 
 namespace HackerNews;
 
@@ -21,7 +20,7 @@ class TextAnalysisService
 			var response = await _textAnalyticsApiClient.AnalyzeSentimentAsync(text).ConfigureAwait(false);
 			return response.Value.Sentiment;
 		}
-		catch(Azure.RequestFailedException)
+		catch (Azure.RequestFailedException)
 		{
 			_isApiKeyValid = false;
 			throw;
