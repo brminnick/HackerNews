@@ -1,7 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Maui.Controls;
-
-namespace HackerNews;
+﻿namespace HackerNews;
 
 abstract class BaseContentPage<TViewModel> : ContentPage where TViewModel : BaseViewModel
 {

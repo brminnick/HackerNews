@@ -1,6 +1,4 @@
 ﻿using CommunityToolkit.Maui.Markup;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
 using static CommunityToolkit.Maui.Markup.GridRowsColumns;
 
 namespace HackerNews;
@@ -27,12 +25,12 @@ public class StoryDataTemplate : DataTemplate
 				.Row(Row.Title).Top()
 				.Font(size: 16).TextColor(ColorConstants.TextCellTextColor)
 				.Paddings(10, 0, 10, 0)
-				.Bind(Label.TextProperty, nameof(StoryModel.Title)),
+				.Bind(Label.TextProperty, static (StoryModel m) => m.Title, mode: BindingMode.OneTime),
 
 			new Label()
 				.Row(Row.Description)
 				.Font(size: 13).TextColor(ColorConstants.TextCellDetailColor)
-				.Bind(Label.TextProperty, nameof(StoryModel.Description))
+				.Bind(Label.TextProperty, static (StoryModel m) => m.Description, mode: BindingMode.OneTime)
 		}
 	};
 
