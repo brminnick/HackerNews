@@ -9,8 +9,8 @@ class NewsPage : BaseContentPage<NewsViewModel>
 	readonly IDispatcher _dispatcher;
 
 	public NewsPage(IBrowser browser,
-						IDispatcher dispatcher,
-						NewsViewModel newsViewModel) : base(newsViewModel, "Top Stories")
+		IDispatcher dispatcher,
+		NewsViewModel newsViewModel) : base(newsViewModel, "Top Stories")
 	{
 		_browser = browser;
 		_dispatcher = dispatcher;
@@ -18,34 +18,46 @@ class NewsPage : BaseContentPage<NewsViewModel>
 		BindingContext.PullToRefreshFailed += HandlePullToRefreshFailed;
 
 		Content = new RefreshView
-		{
-			RefreshColor = Colors.Black,
-
-			Content = new CollectionView
 			{
-				BackgroundColor = Color.FromArgb("F6F6EF"),
-				SelectionMode = SelectionMode.Single,
-				ItemTemplate = new StoryDataTemplate(),
+				RefreshColor = Colors.Black,
 
-			}.Bind(CollectionView.ItemsSourceProperty, static (NewsViewModel vm) => vm.TopStoryCollection)
-			 .Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged)
+				Content = new CollectionView
+					{
+						BackgroundColor = Color.FromArgb("F6F6EF"),
+						SelectionMode = SelectionMode.Single,
+						ItemTemplate = new StoryDataTemplate(),
 
-		}.Bind(RefreshView.IsRefreshingProperty, static (NewsViewModel vm) => vm.IsListRefreshing)
-		 .Bind(RefreshView.CommandProperty, static (NewsViewModel vm) => vm.RefreshCommand);
+					}.Bind(CollectionView.ItemsSourceProperty,
+						getter: static (NewsViewModel vm) => vm.TopStoryCollection)
+					.Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged)
+
+			}.Bind(RefreshView.IsRefreshingProperty,
+				getter: static (NewsViewModel vm) => vm.IsListRefreshing,
+				setter: static (vm, isRefreshing) => vm.IsListRefreshing = isRefreshing)
+			.Bind(RefreshView.CommandProperty,
+				getter: static (NewsViewModel vm) => vm.RefreshCommand,
+				mode: BindingMode.OneTime);
 	}
 
 	protected override void OnAppearing()
 	{
 		base.OnAppearing();
 
-		if (Content is RefreshView refreshView
-			&& refreshView.Content is CollectionView collectionView
+		if (Content is RefreshView { Content: CollectionView collectionView } refreshView
 			&& IsNullOrEmpty(collectionView.ItemsSource))
 		{
 			refreshView.IsRefreshing = true;
 		}
 
-		static bool IsNullOrEmpty(in IEnumerable? enumerable) => !enumerable?.GetEnumerator().MoveNext() ?? true;
+		static bool IsNullOrEmpty(in IEnumerable? enumerable)
+		{
+			if (enumerable is null)
+				return false;
+
+			var enumerator = enumerable.GetEnumerator() ?? throw new InvalidOperationException("Enumerator not found");
+			using var disposable = (IDisposable)enumerator;
+			return !enumerator.MoveNext();
+		}
 	}
 
 	async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e)
