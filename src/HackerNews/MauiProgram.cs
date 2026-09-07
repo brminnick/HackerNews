@@ -28,7 +28,7 @@ public class MauiProgram
 		builder.Services.AddSingleton<HackerNewsAPIService>();
 		builder.Services.AddSingleton(new TextAnalyticsClient(new Uri(TextAnalysisConstants.BaseUrl), new AzureKeyCredential(TextAnalysisConstants.SentimentKey)));
 
-		builder.Services.AddRefitClient<IHackerNewsAPI>()
+		builder.Services.AddRefitGeneratedClient<IHackerNewsAPI>()
 			.ConfigureHttpClient(static client => client.BaseAddress = new Uri("https://hacker-news.firebaseio.com/v0"))
 			.AddStandardResilienceHandler(static options => options.Retry = new MobileHttpRetryStrategyOptions());
 
